@@ -1,2 +1,2 @@
-# sping-web-app
+# spring-web-app
 Spring web application
