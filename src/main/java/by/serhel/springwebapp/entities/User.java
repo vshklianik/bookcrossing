@@ -1,6 +1,6 @@
 package by.serhel.springwebapp.entities;
 
-public abstract class User {
+public class User {
     private Long id;
     private String userName;
     private String password;

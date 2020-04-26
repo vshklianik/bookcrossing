@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <!-- Conection string for a MySQL DB -->
+        <property name="connection.url">jdbc:mysql://localhost:3306/mysqldb?currentSchema=hiber</property>
+        <!-- Your DB username -->
+        <property name="connection.username">mysql</property>
+        <!-- Your password DB username -->
+        <property name="connection.password">admin</property>
+
+        <property name="connection.pool_size">8</property>
+        <!-- Hibernate dialect for MySQL DB -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!-- Shows SQL instructions in shell when you run your program and do any CRUD operation into the DB -->
+        <property name="show_sql">false</property>
+        <!-- Updates DB schema on startup -->
+        <!--property name="hbm2ddl.auto">update</property-->
+        <property name="current_session_context_class">thread</property>
+
+        <mapping class="by.serhel.springwebapp.entities.UnconfirmedUser"/>
+        <mapping class="by.serhel.springwebapp.entities.User"/>
+        <mapping class="by.serhel.springwebapp.entities.Advert"/>
+    </session-factory>
+</hibernate-configuration>

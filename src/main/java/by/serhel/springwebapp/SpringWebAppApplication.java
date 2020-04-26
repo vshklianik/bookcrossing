@@ -1,5 +1,6 @@
 package by.serhel.springwebapp;
 
+import by.serhel.springwebapp.entities.UnconfirmedUser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
