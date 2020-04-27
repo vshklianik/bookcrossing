@@ -10,5 +10,4 @@ public class TestController {
     public String homePage(){
         return "home";
     }
-
 }

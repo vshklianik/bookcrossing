@@ -1,26 +1,17 @@
 package by.serhel.springwebapp.entities;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "adverts")
 public class Advert {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "user")
-    private User user;
-
-    @Column(name = "bookName")
     private String bookName;
 
-    @Column(name = "authorName")
     private String authorName;
 
-    @Column(name = "genre")
     private String genre;
 
     public Advert() {
@@ -32,14 +23,6 @@ public class Advert {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getBookName() {
@@ -65,4 +48,5 @@ public class Advert {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
 }
