@@ -17,6 +17,12 @@ public class Advert {
     public Advert() {
     }
 
+    public Advert(String bookName, String authorName, String genre) {
+        this.bookName = bookName;
+        this.authorName = authorName;
+        this.genre = genre;
+    }
+
     public Long getId() {
         return id;
     }
