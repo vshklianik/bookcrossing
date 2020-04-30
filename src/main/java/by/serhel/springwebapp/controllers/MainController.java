@@ -1,8 +1,10 @@
 package by.serhel.springwebapp.controllers;
 
 import by.serhel.springwebapp.entities.Advert;
+import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.repositories.AdvertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,10 +33,12 @@ public class MainController {
 
 
         @PostMapping("/main")
-    public String add(@RequestParam String bookName, @RequestParam String authorName,
-                            @RequestParam String genre, Map<String, Object> model){
+    public String add(@AuthenticationPrincipal User user,
+            @RequestParam String bookName,
+            @RequestParam String authorName,
+            @RequestParam String genre, Map<String, Object> model){
 
-        Advert advert = new Advert(bookName, authorName, genre);
+        Advert advert = new Advert(bookName, authorName, genre, user);
         advertRepository.save(advert);
 
         Iterable<Advert> adverts = advertRepository.findAll();

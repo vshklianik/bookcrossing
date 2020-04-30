@@ -7,21 +7,36 @@ public class Advert {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String bookName;
-
     private String authorName;
-
     private String genre;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User author;
 
     public Advert() {
     }
 
-    public Advert(String bookName, String authorName, String genre) {
+    public Advert(String bookName, String authorName, String genre, User author) {
         this.bookName = bookName;
         this.authorName = authorName;
         this.genre = genre;
+        this.author = author;
     }
+
+    public String getAuthorUsername(){
+        return author != null ? author.getUsername() : "<none>";
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
 
     public Long getId() {
         return id;
