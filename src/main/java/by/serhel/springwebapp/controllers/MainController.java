@@ -4,7 +4,9 @@ import by.serhel.springwebapp.entities.Advert;
 import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.repositories.AdvertRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,9 @@ public class MainController {
     private AdvertRepository advertRepository;
 
     @GetMapping("/")
-    public String homePage(Map<String, Object> model){
+    public String homePage(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        model.addAttribute("authentication", authentication);
         return "home";
     }
 
@@ -43,6 +47,8 @@ public class MainController {
             @RequestParam String bookName,
             @RequestParam String authorName,
             @RequestParam String genre, Map<String, Object> model){
+
+
 
         Advert advert = new Advert(bookName, authorName, genre, user);
         advertRepository.save(advert);

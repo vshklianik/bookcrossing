@@ -1,11 +1,5 @@
 <#import "parts/common.ftlh" as c>
-<#import "parts/login.ftlh" as l>
 <@c.page>
-    <div>
-        <@l.logout />
-        <span><a href="/users">User list</a></span>
-    </div>
-
     <div>
         <form method="post">
             <input type="text" name="bookName" placeholder="Введите название книги">
