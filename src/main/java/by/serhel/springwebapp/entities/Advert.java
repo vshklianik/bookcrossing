@@ -15,6 +15,8 @@ public class Advert {
     @JoinColumn(name = "user_id")
     private User author;
 
+    private String filename;
+
     public Advert() {
     }
 
@@ -23,6 +25,14 @@ public class Advert {
         this.authorName = authorName;
         this.genre = genre;
         this.author = author;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public String getAuthorUsername(){
