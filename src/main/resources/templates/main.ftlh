@@ -1,37 +1,62 @@
 <#import "parts/common.ftlh" as c>
 <@c.page>
-    <div>
-        <form method="post" enctype="multipart/form-data">
-            <input type="text" name="bookName" placeholder="Введите название книги">
-            <input type="text" name="authorName" placeholder="Введите имя автора">
-            <input type="text" name="genre" placeholder="Введите название жанра">
-            <input type="file" name="file">
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
-            <button type="submit">Добавить</button>
-        </form>
-    </div>
-
-    <div>
-        <form method="get" action="main">
-            <input type="text" name="filter" value="${filter?if_exists}" placeholder="фильтр">
-            <button type="submit">Найти</button>
-        </form>
-    </div>
-
-    <#list adverts as advert>
-        <div>
-            <b>${advert.id}</b>
-            <span style="color: green">${advert.bookName}</span>
-            <span style="color: green">${advert.authorName}</span>
-            <span style="color: green">${advert.genre}</span>
-            <span style="color: green">${advert.getAuthorUsername()}</span>
-            <div>
-                <#if advert.filename??>
-                    <img src="/img/${advert.filename}">
-                </#if>
-            </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" action="/main" class="form-inline">
+                <input type="text" class="form-control" name="filter" value="${filter?if_exists}" placeholder="Поиск по тегу">
+                <button type="submit" class="btn btn-outline-primary ml-2">Найти</button>
+            </form>
         </div>
+    </div>
+
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddBook" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Add book
+    </a>
+    <div class="collapse" id="collapseAddBook">
+        <div class="form-group mt-2">
+            <form method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="bookName" placeholder="Введите название книги">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="authorName" placeholder="Введите имя автора">
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="genre" placeholder="Тэг">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="file" id="customFile">
+                        <label class="custom-file-label" for="customFile">Выберите картинку</label>
+                    </div>
+                    <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card-columns">
+        <#list adverts as advert>
+            <div class="card my-3">
+                <div>
+                    <#if advert.filename??>
+                        <img src="/img/${advert.filename}" class="card-img-top">
+                    </#if>
+                </div>
+                <div class="m-2">
+                    <div><span>${advert.bookName}</span></div>
+                    <div><span>${advert.authorName}</span></div>
+                    <div><span>${advert.genre}</span></div>
+                </div>
+                <div class="card-footer text-muted">
+                    <span>${advert.getAuthorUsername()}</span>
+                </div>
+            </div>
         <#else>
-        No adverts
-    </#list>
+            No adverts
+        </#list>
+    </div>
 </@c.page>

@@ -58,8 +58,6 @@ public class MainController {
                       @RequestParam("file") MultipartFile file) throws IOException {
         Advert advert = new Advert(bookName, authorName, genre, user);
 
-
-
         if(file != null && !file.getOriginalFilename().isEmpty()){
             File uploadDir = new File(uploadPath);
 

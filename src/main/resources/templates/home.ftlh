@@ -1,4 +1,7 @@
 <#import  "parts/common.ftlh" as c>
 <@c.page>
-    <div><h4 style="margin-left: 20px; color: green";>Hello, user</h4></div>
+    <h5>Hello, Guest!</h5>
+    <div>
+        <span>Here you can exchange books with other people.</span>
+    </div>
 </@c.page>
