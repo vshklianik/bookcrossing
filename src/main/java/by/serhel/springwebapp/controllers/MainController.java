@@ -31,7 +31,7 @@ public class MainController {
     @GetMapping("/")
     public String homePage(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("authentication", authentication);
+        model.addAttribute("isAuthenticated", authentication.isAuthenticated());
         return "home";
     }
 
