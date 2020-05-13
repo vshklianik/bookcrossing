@@ -101,4 +101,9 @@ public class UserService implements UserDetailsService {
         }
         userRepository.save(user);
     }
+
+    public boolean deleteUser(User user) {
+        userRepository.delete(user);
+        return userRepository.findByUsername(user.getUsername()) == null;
+    }
 }

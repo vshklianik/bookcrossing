@@ -3,14 +3,18 @@
     User editor
 
     <form action="/users" method="post">
-        <input type="text" name="username" value="${user.username}">
+        <div class="mt-3">
+            <label for="username" >Edit username</label>
+            <input type="text" name="username" value="${user.username}">
+        </div>
         <#list roles as role>
-            <div>
-                <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>
+            <div class="custom-control custom-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>
+                <label class="custom-control-label" for="${role}">${role}</label>
             </div>
         </#list>
         <input type="hidden" name="userId" value="${user.id}">
         <input type="hidden" name="_csrf" value="${_csrf.token}">
-        <button type="submit">Save</button>
+        <button type="submit" class="btn btn-outline-primary">Save</button>
     </form>
 </@c.page>
