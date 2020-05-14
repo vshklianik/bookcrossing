@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("edit/{user}")
+    @GetMapping("/edit/{user}")
     public String userEditForm(@PathVariable User user, Model model){
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("delete/{user}")
+    @GetMapping("/delete/{user}")
     public String userDelete(@PathVariable User user, Model model){
         if(userService.deleteUser(user)){
             model.addAttribute("message", "user deleted");
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping()
+    @PostMapping("/edit")
     public String userSave(@RequestParam String username,
             @RequestParam Map<String, String> form,
             @RequestParam("userId") User user)

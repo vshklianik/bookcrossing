@@ -11,7 +11,7 @@
 	<groupId>by.serhel</groupId>
 	<artifactId>spring-web-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-web-app</name>
+	<name>spring-web-app</name><r></r>
 	<description>Bookcrossing</description>
 
 	<properties>

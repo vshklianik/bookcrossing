@@ -2,15 +2,14 @@
 <@c.page>
     User editor
 
-    <form action="/users" method="post">
+    <form action="/users/edit" method="post">
         <div class="mt-3">
             <label for="username" >Edit username</label>
             <input type="text" name="username" value="${user.username}">
         </div>
         <#list roles as role>
-            <div class="custom-control custom-checkbox mb-3">
-                <input type="checkbox" class="custom-control-input" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>
-                <label class="custom-control-label" for="${role}">${role}</label>
+            <div class="mb-3">
+                <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}>${role}</label>
             </div>
         </#list>
         <input type="hidden" name="userId" value="${user.id}">
