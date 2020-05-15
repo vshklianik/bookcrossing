@@ -1,13 +1,20 @@
 package by.serhel.springwebapp.entities;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Advert {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @NotBlank(message = "Please fill the book name")
+    @Length(max = 255, message = "Book name to long")
     private String bookName;
+    @Length(max = 255, message = "Author name to long")
     private String authorName;
     private String genre;
 
