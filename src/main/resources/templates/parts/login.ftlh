@@ -13,69 +13,33 @@
             <div class="form-group">
                 <label for="username">Username</label>
                 <div>
-                    <input type="text" id="username" name="username"
-                           class="form-control ${(usernameError??)?string('is-invalid', '')}"
-                           value="<#if user??>${user.username}</#if>"
-                           placeholder="Username"
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Username"
                            pattern="[a-zA-Z0-9]{4,12}">
-                    <#--                    <p class="help-block">Username should be at least 4 characters</p>-->
-                    <#if usernameError??>
-                        <div class="invalid-feedback">
-                            ${usernameError}
-                        </div>
-                    </#if>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <div>
-                    <input type="password" id="password" name="password"
-                           class="form-control ${(passwordError??)?string('is-invalid', '')}"
-                           placeholder="Password" pattern="[a-zA-Z0-9_-]{4,12}">
-                    <#--                    <p class="help-block">Password should be at least 4 characters</p>-->
-                    <#if passwordError??>
-                        <div class="invalid-feedback">
-                            ${passwordError}
-                        </div>
-                    </#if>
+                    <p class="help-block">Username should be at least 4 characters</p>
                 </div>
             </div>
             <#if path == "/registration">
                 <div class="form-group">
-                    <label for="password1">Password</label>
-                    <div>
-                        <input type="password" id="password1" name="password1"
-                               class="form-control ${(password1Error??)?string('is-invalid', '')}"
-                               placeholder="Confirm password" pattern="[a-zA-Z0-9_-]{4,12}">
-                        <#--                    <p class="help-block">Password should be at least 4 characters</p>-->
-                        <#if password1Error??>
-                            <div class="invalid-feedback">
-                                ${password1Error}
-                            </div>
-                        </#if>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label for="email">Email</label>
                     <div>
-                        <input type="email" id="email" name="email"
-                               class="form-control ${(emailError??)?string('is-invalid', '')}"
-                               value="<#if user??>${user.email}</#if>" placeholder="Your email">
-                        <#if emailError??>
-                            <div class="invalid-feedback">
-                                ${emailError}
-                            </div>
-                        </#if>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Your email">
                     </div>
                 </div>
             </#if>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                           pattern="[a-zA-Z0-9_-]{4,12}">
+                    <p class="help-block">Password should be at least 4 characters</p>
+                </div>
+            </div>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
-            <#if path != "/registration">
-                <a href="/registration" class="btn btn-success">Create an account</a>
-            </#if>
-            <button type="submit" class="btn btn-primary pull-right">Sing in</button>
+            <button type="submit" class="btn btn-primary">Sing in</button>
         </form>
-
+        <#if path != "/registration">
+            <a href="/registration" class="alert-info">Create an account</a>
+        </#if>
     </div>
 </#macro>
 

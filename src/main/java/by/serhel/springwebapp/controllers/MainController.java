@@ -3,9 +3,6 @@ package by.serhel.springwebapp.controllers;
 import by.serhel.springwebapp.entities.Advert;
 import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.repositories.AdvertRepository;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
-import org.apache.logging.log4j.message.Message;
-import org.aspectj.bridge.IMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -13,20 +10,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -60,37 +52,29 @@ public class MainController {
 
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal User user,
-                      @Valid Advert advert,
-                      BindingResult bindingResult,
-                      Model model,
-                      @RequestParam("file") MultipartFile file) throws IOException
-    {
-        advert.setAuthor(user)  ;
+                      @RequestParam String bookName,
+                      @RequestParam String authorName,
+                      @RequestParam String genre, Map<String, Object> model,
+                      @RequestParam("file") MultipartFile file) throws IOException {
+        Advert advert = new Advert(bookName, authorName, genre, user);
 
-        if(bindingResult.hasErrors()){
-            Map<String, String> errorMap = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errorMap);
-            model.addAttribute("advert", advert);
-        }
-        else {
-            if (file != null && !file.getOriginalFilename().isEmpty()) {
-                File uploadDir = new File(uploadPath);
+        if(file != null && !file.getOriginalFilename().isEmpty()){
+            File uploadDir = new File(uploadPath);
 
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdir();
-                }
-
-                String uuidFile = UUID.randomUUID().toString();
-                String resultFileName = uuidFile + "." + file.getOriginalFilename();
-                file.transferTo(new File(uploadPath + resultFileName));
-
-                advert.setFilename(resultFileName);
+            if(!uploadDir.exists()){
+                uploadDir.mkdir();
             }
-            model.addAttribute("advert", null);
-            advertRepository.save(advert);
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+            file.transferTo(new File(uploadPath + resultFileName));
+
+            advert.setFilename(resultFileName);
         }
+
+        advertRepository.save(advert);
         Iterable<Advert> adverts = advertRepository.findAll();
-        model.addAttribute("adverts", adverts);
+        model.put("adverts", adverts);
         return "main";
     }
 }
