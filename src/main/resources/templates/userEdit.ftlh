@@ -3,9 +3,9 @@
     User editor
 
     <form action="/users/edit" method="post">
-        <div class="mt-3">
+        <div class="form-group mt-3">
             <label for="username" >Edit username</label>
-            <input type="text" name="username" value="${user.username}">
+            <input type="text" class="form-control" name="username" value="${user.username}">
         </div>
         <#list roles as role>
             <div class="mb-3">

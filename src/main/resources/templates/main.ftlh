@@ -12,14 +12,26 @@
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddBook" role="button" aria-expanded="false" aria-controls="collapseExample">
         Add book
     </a>
-    <div class="collapse" id="collapseAddBook">
+    <div class="collapse <#if advert??>show</#if>" id="collapseAddBook">
         <div class="form-group mt-2">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group">
-                    <input type="text" class="form-control" name="bookName" placeholder="Введите название книги">
+                    <input type="text" class="form-control ${(bookNameError??)?string('is-invalid', '')}"
+                           value="<#if advert??>${advert.bookName}</#if>" name="bookName" placeholder="Введите название книги">
+                    <#if bookNameError??>
+                         <div class="invalid-feedback">
+                            ${bookNameError}
+                         </div>
+                    </#if>
                 </div>
                 <div class="form-group">
-                    <input type="text" class="form-control" name="authorName" placeholder="Введите имя автора">
+                    <input type="text" class="form-control ${(authorNameError??)?string('is-invalid', '')}"
+                           value="<#if advert??>${advert.authorName}</#if>" name="authorName" placeholder="Введите имя автора">
+                    <#if authorNameError??>
+                        <div class="invalid-feedback">
+                            ${authorNameError}
+                        </div>
+                    </#if>
                 </div>
                 <div class="form-group">
                     <input type="text" class="form-control" name="genre" placeholder="Тэг">
@@ -55,8 +67,8 @@
                     <span>${advert.getAuthorUsername()}</span>
                 </div>
             </div>
-        <#else>
-            No adverts
+<#--        <#else>-->
+<#--            No adverts-->
         </#list>
     </div>
 </@c.page>
