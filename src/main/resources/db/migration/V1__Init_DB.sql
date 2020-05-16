@@ -6,7 +6,7 @@ insert into hibernate_sequence values ( 1 );
 
 insert into hibernate_sequence values ( 1 );
 
-create table advert (
+create table book (
     id bigint not null,
     author_name varchar(255),
     book_name varchar(255),
@@ -31,7 +31,7 @@ create table users (
     primary key (id)
 );
 
-alter table advert
+alter table book
     add constraint advert_user_fk
     foreign key (user_id) references users (id);
 

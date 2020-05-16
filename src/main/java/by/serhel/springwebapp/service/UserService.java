@@ -2,6 +2,7 @@ package by.serhel.springwebapp.service;
 
 import by.serhel.springwebapp.entities.Role;
 import by.serhel.springwebapp.entities.User;
+import by.serhel.springwebapp.repositories.BookRepository;
 import by.serhel.springwebapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

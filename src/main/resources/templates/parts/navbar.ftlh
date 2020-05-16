@@ -15,6 +15,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/main">Books</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/myBooks">My books</a>
+                </li>
                 <#if isAdmin>
                     <li class="nav-item">
                         <a class="nav-link" href="/users">Users</a>
@@ -25,13 +28,15 @@
                         <a class="nav-link" href="/users/profile">Profile</a>
                     </li>
                 </#if>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
-                </li>
             </ul>
 
+            
             <div class="navbar-text mr-3">${name}</div>
-            <@l.logout />
+            <#if user??>
+                <@l.logout />
+                <#else >
+                    <a href="/login" class="btn btn-primary">Sign in</a>
+            </#if>
 
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">

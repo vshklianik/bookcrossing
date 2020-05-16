@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-public class Advert {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -24,10 +24,10 @@ public class Advert {
 
     private String filename;
 
-    public Advert() {
+    public Book() {
     }
 
-    public Advert(String bookName, String authorName, String genre, User author) {
+    public Book(String bookName, String authorName, String genre, User author) {
         this.bookName = bookName;
         this.authorName = authorName;
         this.genre = genre;
@@ -86,5 +86,4 @@ public class Advert {
     public void setGenre(String genre) {
         this.genre = genre;
     }
-
 }

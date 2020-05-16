@@ -1,11 +1,8 @@
 package by.serhel.springwebapp.controllers;
 
-import by.serhel.springwebapp.entities.Advert;
+import by.serhel.springwebapp.entities.Book;
 import by.serhel.springwebapp.entities.User;
-import by.serhel.springwebapp.repositories.AdvertRepository;
-import net.bytebuddy.implementation.bind.MethodDelegationBinder;
-import org.apache.logging.log4j.message.Message;
-import org.aspectj.bridge.IMessage;
+import by.serhel.springwebapp.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -14,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,13 +21,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
     @Autowired
-    private AdvertRepository advertRepository;
+    private BookRepository bookRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -45,12 +39,12 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(@RequestParam(required = false) String filter, Model model){
-        Iterable<Advert> adverts;
+        Iterable<Book> adverts;
         if(filter != null && !filter.isEmpty()){
-            adverts = advertRepository.findByGenre(filter);
+            adverts = bookRepository.findByGenre(filter);
         }
         else{
-            adverts = advertRepository.findAll();      }
+            adverts = bookRepository.findAll();      }
 
         model.addAttribute("adverts", adverts);
         model.addAttribute("filter", filter);
@@ -60,17 +54,17 @@ public class MainController {
 
     @PostMapping("/main")
     public String add(@AuthenticationPrincipal User user,
-                      @Valid Advert advert,
+                      @Valid Book book,
                       BindingResult bindingResult,
                       Model model,
                       @RequestParam("file") MultipartFile file) throws IOException
     {
-        advert.setAuthor(user)  ;
+        book.setAuthor(user)  ;
 
         if(bindingResult.hasErrors()){
             Map<String, String> errorMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorMap);
-            model.addAttribute("advert", advert);
+            model.addAttribute("advert", book);
         }
         else {
             if (file != null && !file.getOriginalFilename().isEmpty()) {
@@ -84,13 +78,20 @@ public class MainController {
                 String resultFileName = uuidFile + "." + file.getOriginalFilename();
                 file.transferTo(new File(uploadPath + resultFileName));
 
-                advert.setFilename(resultFileName);
+                book.setFilename(resultFileName);
             }
             model.addAttribute("advert", null);
-            advertRepository.save(advert);
+            bookRepository.save(book);
         }
-        Iterable<Advert> adverts = advertRepository.findAll();
+        Iterable<Book> adverts = bookRepository.findAll();
         model.addAttribute("adverts", adverts);
         return "main";
+    }
+
+    @GetMapping("/myBooks")
+    public String getMyBooks(@AuthenticationPrincipal User user, Model model){
+        model.addAttribute("user", user);
+        model.addAttribute("books", bookRepository.findByAuthor(user));
+        return "myBooks";
     }
 }

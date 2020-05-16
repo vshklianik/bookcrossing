@@ -1,18 +1,10 @@
 <#import "parts/common.ftlh" as c>
 <@c.page>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <form method="get" action="/main" class="form-inline">
-                <input type="text" class="form-control" name="filter" value="${filter?if_exists}" placeholder="Поиск по тегу">
-                <button type="submit" class="btn btn-outline-primary ml-2">Найти</button>
-            </form>
-        </div>
-    </div>
-
     <#include "parts/bookEdit.ftlh" />
 
     <div class="card-columns">
-        <#list adverts as book>
+        <#list books as book>
+
             <div class="card my-3">
                 <div>
                     <#if book.filename??>
@@ -28,8 +20,9 @@
                     <span>${book.getAuthorUsername()}</span>
                 </div>
             </div>
-        <#--        <#else>-->
-        <#--            No adverts-->
+
+        <#else>
+            No adverts
         </#list>
     </div>
 </@c.page>
