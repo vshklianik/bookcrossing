@@ -15,17 +15,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/main">Books</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/myBooks">My books</a>
-                </li>
+                <#if user??>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/myBooks">My books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/users/profile">Profile</a>
+                    </li>
+                </#if>
                 <#if isAdmin>
                     <li class="nav-item">
                         <a class="nav-link" href="/users">Users</a>
-                    </li>
-                </#if>
-                <#if user??>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/users/profile">Profile</a>
                     </li>
                 </#if>
             </ul>
@@ -35,7 +35,9 @@
             <#if user??>
                 <@l.logout />
                 <#else >
-                    <a href="/login" class="btn btn-primary">Sign in</a>
+                    <div class="mr-3">
+                        <a href="/login" class="btn btn-primary">Sign in</a>
+                    </div>
             </#if>
 
             <form class="form-inline my-2 my-lg-0">

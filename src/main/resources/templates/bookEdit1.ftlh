@@ -1,9 +1,7 @@
-<a class="btn btn-primary" data-toggle="collapse" href="#collapseAddBook" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Save book
-</a>
-<div class="collapse <#if book??>show</#if>" id="collapseAddBook">
+<#import "parts/common.ftlh" as c>
+<@c.page>
     <div class="form-group mt-2">
-        <form method="post" enctype="multipart/form-data">
+        <form action="/myBooks/edit/" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="text" class="form-control ${(bookNameError??)?string('is-invalid', '')}"
                        value="<#if book??>${book.bookName}</#if>" name="bookName" placeholder="Enter book name">
@@ -23,13 +21,17 @@
                 </#if>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="genre" placeholder="Тэг">
+                <input type="text" class="form-control"
+                       name="genre" placeholder="Enter genre"
+                       value="<#if book??>${book.genre}</#if>">
             </div>
             <div class="form-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" name="file" id="customFile">
                     <label class="custom-file-label" for="customFile">Select picture</label>
                 </div>
+                <input type="hidden" name="id" value="${book.id}" />
+                <input type="hidden" name="filename" value="<#if book.filename??>${book.filename}</#if>" />
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
             </div>
             <div class="form-group">
@@ -37,4 +39,4 @@
             </div>
         </form>
     </div>
-</div>
+</@c.page>

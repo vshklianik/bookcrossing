@@ -4,8 +4,6 @@ create table hibernate_sequence (
 
 insert into hibernate_sequence values ( 1 );
 
-insert into hibernate_sequence values ( 1 );
-
 create table book (
     id bigint not null,
     author_name varchar(255),

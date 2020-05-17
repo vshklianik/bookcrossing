@@ -3,16 +3,14 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <form method="get" action="/main" class="form-inline">
-                <input type="text" class="form-control" name="filter" value="${filter?if_exists}" placeholder="Поиск по тегу">
-                <button type="submit" class="btn btn-outline-primary ml-2">Найти</button>
+                <input type="text" class="form-control" name="filter" value="${filter?if_exists}" placeholder="Find by genre">
+                <button type="submit" class="btn btn-outline-primary ml-2">Search</button>
             </form>
         </div>
     </div>
 
-    <#include "parts/bookEdit.ftlh" />
-
     <div class="card-columns">
-        <#list adverts as book>
+        <#list books as book>
             <div class="card my-3">
                 <div>
                     <#if book.filename??>
