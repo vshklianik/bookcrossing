@@ -1,10 +1,7 @@
 package by.serhel.springwebapp.controllers;
 
-import by.serhel.springwebapp.entities.Role;
 import by.serhel.springwebapp.entities.User;
-import by.serhel.springwebapp.repositories.UserRepository;
 import by.serhel.springwebapp.service.UserService;
-import org.hibernate.id.AbstractUUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.Collections;
 import java.util.Map;
 
 @Controller
