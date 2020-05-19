@@ -12,6 +12,12 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="phone">Phone number</label>
+                <div>
+                    <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Your phone number" value="${phoneNumber!''}">
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="password">Password</label>
                 <div>
                     <input type="password" id="password" name="password" class="form-control" placeholder="Password">

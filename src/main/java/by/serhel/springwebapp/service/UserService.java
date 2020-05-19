@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void updateProfile(User user, String email, String password) {
+    public void updateProfile(User user, String email, String password, String phoneNumber) {
         String userEmail = user.getEmail();
 
         if(email != null && !email.equals(userEmail) || userEmail != null && !userEmail.equals(email)
@@ -106,6 +106,10 @@ public class UserService implements UserDetailsService {
                 user.setActivationCode(UUID.randomUUID().toString());
             }
             sendMessage(user);
+        }
+
+        if(!StringUtils.isEmpty(phoneNumber)){
+            user.setPhoneNumber(phoneNumber);
         }
 
         if(!StringUtils.isEmpty(password)){

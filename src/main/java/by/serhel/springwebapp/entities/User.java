@@ -28,6 +28,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Email cannot be empty")
     private String email;
 
+    private String phoneNumber;
+
     private String activationCode;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -136,12 +138,21 @@ public class User implements UserDetails {
                 Objects.equals(username, user.username) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
+                Objects.equals(phoneNumber, user.phoneNumber) &&
                 Objects.equals(activationCode, user.activationCode) &&
                 Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, active, email, activationCode, roles);
+        return Objects.hash(id, username, password, active, email, phoneNumber, activationCode, roles);
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

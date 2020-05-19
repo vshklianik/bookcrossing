@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SpringWebAppApplication {
-	private static final Logger logger = LogManager.getLogger(SpringWebAppApplication.class.getName());
 
 	public static void main(String[] args) {
-		logger.warn("TEST");
 		SpringApplication.run(SpringWebAppApplication.class, args);
 	}
 }

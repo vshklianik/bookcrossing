@@ -2,6 +2,8 @@ package by.serhel.springwebapp.controllers;
 
 import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +19,15 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
+    private static Logger logger = LogManager.getLogger(RegistrationController.class.getName());
+
     @Autowired
     private UserService userService;
 
     @GetMapping("/registration")
-    public String registration(){
+    public String registration()
+    {
+        logger.info("return 'registration'");
         return "registration";
     }
 
@@ -31,6 +37,8 @@ public class RegistrationController {
                           BindingResult bindingResult,
                           Model model
     ){
+        logger.info("start 'addUser'");
+
         boolean passwordConfirmEmpty = StringUtils.isEmpty(passwordComfirm);
 
         if(passwordConfirmEmpty){
@@ -54,11 +62,15 @@ public class RegistrationController {
             model.addAttribute("userError", "User exist");
             return "registration";
         }
+
+        logger.info("finish 'addUser'");
         return "redirect:/login";
     }
 
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code){
+        logger.info("start 'activate'");
+
         boolean isActivated = userService.activateUser(code);
 
         if(isActivated){
@@ -69,6 +81,8 @@ public class RegistrationController {
             model.addAttribute("message", "Activation code not found!");
             model.addAttribute("messageType", "danger");
         }
+
+        logger.info("finish 'activate'");
         return "login";
     }
 }
