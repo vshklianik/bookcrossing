@@ -1,5 +1,12 @@
 <#import "parts/common.ftlh" as c>
+<#include "parts/security.ftlh">
 <@c.page>
+    <#if message??>
+        <div class="alert alert-${message}" role="alert">
+            Book delete is successfully
+        </div>
+    </#if>
+
     <div class="form-row">
         <div class="form-group col-md-6">
             <form method="get" action="/main" class="form-inline">
@@ -21,13 +28,21 @@
                     <div><span>${book.bookName}</span></div>
                     <div><span>${book.authorName}</span></div>
                     <div><span>${book.genre}</span></div>
+                    <#if isAdmin>
+                        <a href="/main/${book.id}" class="btn btn-primary">More info</a>
+                        <a href="/main/delete/${book.id}" class="btn btn-danger">Delete</a>
+                        <#else >
+                            <a href="/main/${book.id}" class="btn btn-primary stretched-link">More info</a>
+                    </#if>
+
+
                 </div>
                 <div class="card-footer text-muted">
                     <span>${book.getAuthorUsername()}</span>
                 </div>
             </div>
-        <#--        <#else>-->
-        <#--            No adverts-->
+<#--        <#else>-->
+<#--            No adverts-->
         </#list>
     </div>
 </@c.page>
