@@ -22,15 +22,24 @@
                     </div>
                 </#if>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="genre" placeholder="Тэг">
-            </div>
+<#--            <div class="form-group">-->
+<#--                <input type="text" class="form-control" name="genre" placeholder="Тэг">-->
+<#--            </div>-->
             <div class="form-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" name="file" id="customFile">
                     <label class="custom-file-label" for="customFile">Select picture</label>
                 </div>
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
+            </div>
+            <div name="genre">
+                <#if genres??>
+                    <#list genres as genre>
+                        <div class="mb-3">
+                            <label><input type="checkbox" name="${genre}" value="${genre}"}>${genre.getValue()}</label>
+                        </div>
+                    </#list>
+                </#if>
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary">Save</button>

@@ -4,6 +4,8 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Book {
@@ -11,12 +13,17 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Please fill the book name")
-    @Length(max = 255, message = "Book name to long")
+//    @NotBlank(message = "Please fill the book name")
+//    @Length(max = 255, message = "Book name to long")
     private String bookName;
-    @Length(max = 255, message = "Author name to long")
+//    @Length(max = 255, message = "Author name to long")
     private String authorName;
-    private String genre;
+
+//    private String genre;
+    @ElementCollection(targetClass = GenreType.class, fetch = FetchType.LAZY)
+    @CollectionTable(name = "genre", joinColumns = @JoinColumn(name = "book_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<GenreType> genre;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -25,13 +32,6 @@ public class Book {
     private String filename;
 
     public Book() {
-    }
-
-    public Book(String bookName, String authorName, String genre, User author) {
-        this.bookName = bookName;
-        this.authorName = authorName;
-        this.genre = genre;
-        this.author = author;
     }
 
     public String getFilename() {
@@ -79,11 +79,19 @@ public class Book {
         this.authorName = authorName;
     }
 
-    public String getGenre() {
+    public Set<GenreType> getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Set<GenreType> genre) {
         this.genre = genre;
+    }
+
+    public List<String> getListOfGenre() {
+        List<String> list = new ArrayList<>();
+        for(GenreType g : genre){
+            list.add(g.getValue());
+        }
+        return list;
     }
 }

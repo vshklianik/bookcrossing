@@ -15,10 +15,11 @@
                     <h5>${book.bookName}</h5>
                 </div>
                 <div class="card-body m-2">
-                    <span>${book.genre}</span><br>
                     <span>${book.authorName}</span><br>
-                        <a class="btn btn-primary" href="/myBooks/edit/${book.id}">Edit</a>
-                        <a class="btn btn-danger" href="/myBooks/delete/${book.id}">Delete</a>
+                    <span>${book.authorName}</span><br>
+                    <p>${(book.getListOfGenre())?join(", ")}</p>
+                    <a class="btn btn-primary" href="/myBooks/edit/${book.id}">Edit</a>
+                    <a class="btn btn-danger" href="/myBooks/delete/${book.id}">Delete</a>
                 </div>
                 <div class="card-footer text-muted">
                     <span>${book.getAuthorUsername()}</span>

@@ -2,6 +2,7 @@ package by.serhel.springwebapp.controllers;
 
 import by.serhel.springwebapp.SpringWebAppApplication;
 import by.serhel.springwebapp.entities.Book;
+import by.serhel.springwebapp.entities.GenreType;
 import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.repositories.BookRepository;
 import by.serhel.springwebapp.service.BookService;
@@ -15,9 +16,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.GeneratedValue;
 import javax.validation.Valid;
+import javax.xml.soap.SAAJResult;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/myBooks")
@@ -34,6 +39,9 @@ public class BookController {
     public String getMyBooks(@AuthenticationPrincipal User user, Model model){
         logger.info("start 'getMyBooks'");
 
+
+
+        model.addAttribute("genres", GenreType.values());
         model.addAttribute("user", user);
         model.addAttribute("books", bookRepository.findByAuthor(user));
 
@@ -43,12 +51,14 @@ public class BookController {
 
     @PostMapping()
     public String add(@AuthenticationPrincipal User user,
-                      @Valid Book book,
+                      Book book,
+                      @RequestParam Map<String, String> form,
                       BindingResult bindingResult,
                       Model model,
                       @RequestParam("file") MultipartFile file) throws IOException
     {
         logger.info(" start 'add'");
+//        Book book = new Book();
         book.setAuthor(user)  ;
 
         if(bindingResult.hasErrors()){
@@ -59,7 +69,7 @@ public class BookController {
         else {
             book.setFilename(bookService.addFile(file));
             model.addAttribute("book", null);
-            bookService.saveBook(book);
+            bookService.saveBook(book, form);
         }
         Iterable<Book> books = bookRepository.findByAuthor(user);
         model.addAttribute("books", books);
@@ -81,13 +91,14 @@ public class BookController {
     public String saveBook(@AuthenticationPrincipal User user,
                            Book book,
                            Model model,
+                           @RequestParam Map<String, String> form,
                            @RequestParam("file") MultipartFile file) throws IOException
     {
         logger.info("start 'saveBook'");
 
         book.setAuthor(user);
         book.setFilename(bookService.saveFile(book, file));
-        bookService.saveBook(book);
+        bookService.saveBook(book, form);
         model.addAttribute("message", "Save book is successfully.");
         model.addAttribute("books", bookRepository.findByAuthor(user));
 
