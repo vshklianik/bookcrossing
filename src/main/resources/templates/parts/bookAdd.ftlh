@@ -3,7 +3,7 @@
 </a>
 <div class="collapse <#if book??>show</#if>" id="collapseAddBook">
     <div class="form-group mt-2">
-        <form action="/myBooks/" method="post" enctype="multipart/form-data">
+        <form action="/mybooks" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="text" class="form-control ${(bookNameError??)?string('is-invalid', '')}"
                        value="<#if book??>${book.bookName}</#if>" name="bookName" placeholder="Enter book name">
@@ -22,9 +22,6 @@
                     </div>
                 </#if>
             </div>
-<#--            <div class="form-group">-->
-<#--                <input type="text" class="form-control" name="genre" placeholder="Тэг">-->
-<#--            </div>-->
             <div class="form-group">
                 <div class="custom-file">
                     <input type="file" class="custom-file-input" name="file" id="customFile">
@@ -32,15 +29,7 @@
                 </div>
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
             </div>
-            <div name="genre">
-                <#if genres??>
-                    <#list genres as genre>
-                        <div class="mb-3">
-                            <label><input type="checkbox" name="${genre}" value="${genre}"}>${genre.getValue()}</label>
-                        </div>
-                    </#list>
-                </#if>
-            </div>
+            <#include "genresAdd.ftlh">
             <div class="form-group">
                 <button type="submit" class="btn btn-outline-primary">Save</button>
             </div>

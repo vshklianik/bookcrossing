@@ -1,6 +1,5 @@
 package by.serhel.springwebapp.controllers;
 
-import by.serhel.springwebapp.SpringWebAppApplication;
 import by.serhel.springwebapp.entities.Book;
 import by.serhel.springwebapp.entities.GenreType;
 import by.serhel.springwebapp.entities.User;
@@ -16,16 +15,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.GeneratedValue;
-import javax.validation.Valid;
-import javax.xml.soap.SAAJResult;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/myBooks")
+@RequestMapping("/mybooks")
 public class BookController {
     private static Logger logger = LogManager.getLogger(BookController.class.getName());
 
@@ -81,10 +75,11 @@ public class BookController {
     public String editBook(@PathVariable Book book, Model model){
         logger.info("start 'editBook'");
 
+        model.addAttribute("genres", GenreType.values());
         model.addAttribute("book", book);
 
         logger.info("finish 'editBook'");
-        return "bookEdit1";
+        return "bookEdit";
     }
 
     @PostMapping("edit/")
@@ -103,7 +98,7 @@ public class BookController {
         model.addAttribute("books", bookRepository.findByAuthor(user));
 
         logger.info("finish 'saveBook'");
-        return "myBooks";
+        return "redirect:/mybooks";
     }
 
     @GetMapping("/delete/{book}")
@@ -115,6 +110,6 @@ public class BookController {
         model.addAttribute("message", "Delete book is successfully.");
 
         logger.info("finish 'deleteBook'");
-        return "redirect:/myBooks";
+        return "redirect:/mybooks";
     }
 }

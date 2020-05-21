@@ -13,11 +13,11 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/main">Books</a>
+                    <a class="nav-link" href="/books">Books</a>
                 </li>
                 <#if user??>
                     <li class="nav-item">
-                        <a class="nav-link" href="/myBooks">My books</a>
+                        <a class="nav-link" href="/mybooks">My books</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/users/profile">Profile</a>

@@ -1,7 +1,6 @@
 package by.serhel.springwebapp.controllers;
 
 import by.serhel.springwebapp.entities.Book;
-import by.serhel.springwebapp.entities.GenreType;
 import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.repositories.BookRepository;
 import org.apache.logging.log4j.LogManager;
@@ -29,7 +28,7 @@ public class MainController {
         return "home";
     }
 
-    @GetMapping("/main")
+    @GetMapping("/books")
     public String main(@RequestParam(required = false) String filter, Model model){
         logger.info("start 'main'");
         Iterable<Book> adverts;
@@ -43,10 +42,10 @@ public class MainController {
         model.addAttribute("filter", filter);
 
         logger.info("finish 'main'");
-        return "main";
+        return "Books";
     }
 
-    @GetMapping("/main/{book}")
+    @GetMapping("/books/{book}")
     public String getUserProfile(@PathVariable Book book, Model model){
         logger.info("start 'getUserProfile'");
 
@@ -57,11 +56,11 @@ public class MainController {
         model.addAttribute("book", book);
 
         logger.info("finish 'getUserProfile'");
-        return "userProfile";
+        return "MoreInfoOfBook";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("main/delete/{book}")
+    @GetMapping("books/delete/{book}")
     public String deleteBook(@PathVariable Book book, Model model){
         logger.info("start 'deleteBook'");
 
@@ -69,6 +68,6 @@ public class MainController {
         model.addAttribute("message", "success");
 
         logger.info("finish 'deleteBook'");
-        return "redirect:/main";
+        return "redirect:/books";
     }
 }

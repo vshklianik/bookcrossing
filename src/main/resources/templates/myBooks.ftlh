@@ -1,33 +1,6 @@
 <#import "parts/common.ftlh" as c>
+<#include "parts/security.ftlh">
 <@c.page>
     <#include "parts/bookAdd.ftlh" />
-
-    <div class="card-columns">
-        <#list books as book>
-
-            <div class="card my-3">
-                <div>
-                    <#if book.filename??>
-                        <img src="/img/${book.filename}" class="card-img-top">
-                    </#if>
-                </div>
-                <div class="card-title">
-                    <h5>${book.bookName}</h5>
-                </div>
-                <div class="card-body m-2">
-                    <span>${book.authorName}</span><br>
-                    <span>${book.authorName}</span><br>
-                    <p>${(book.getListOfGenre())?join(", ")}</p>
-                    <a class="btn btn-primary" href="/myBooks/edit/${book.id}">Edit</a>
-                    <a class="btn btn-danger" href="/myBooks/delete/${book.id}">Delete</a>
-                </div>
-                <div class="card-footer text-muted">
-                    <span>${book.getAuthorUsername()}</span>
-                </div>
-            </div>
-
-        <#else>
-            No adverts
-        </#list>
-    </div>
+    <#include "parts/bookList.ftlh">
 </@c.page>

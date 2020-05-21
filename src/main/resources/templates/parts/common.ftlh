@@ -1,4 +1,3 @@
-<#import "login.ftlh" as l>
 <#macro page>
     <!DOCTYPE html>
     <html lang="en">
