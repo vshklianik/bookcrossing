@@ -1,9 +1,10 @@
 package by.serhel.springwebapp.service;
 
-import by.serhel.springwebapp.entities.Role;
+import by.serhel.springwebapp.entities.types.Role;
 import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,10 +21,16 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    private BookService bookService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private MailSender mailSender;
+
+    @Value("mail.message")
+    private String mailMessage;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,9 +61,7 @@ public class UserService implements UserDetailsService {
 
     private void sendMessage(User user) {
         if(!StringUtils.isEmpty(user.getEmail())){
-            String message = String.format(
-                    "Hello %s!\n" +
-                            "Welcome to BookCrossing. Please, visit next link: http://localhost:8080/activate/%s",
+            String message = String.format(mailMessage,
                     user.getUsername(), user.getActivationCode());
 
             mailSender.send(user.getEmail(), "Activation code", message);
@@ -118,8 +123,8 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public boolean deleteUser(User user) {
+    public void deleteUser(User user) {
+        bookService.deleteAllBooksByAuthor(user);
         userRepository.delete(user);
-        return userRepository.findByUsername(user.getUsername()) == null;
     }
 }

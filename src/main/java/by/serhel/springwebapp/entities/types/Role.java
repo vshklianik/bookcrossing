@@ -1,4 +1,4 @@
-package by.serhel.springwebapp.entities;
+package by.serhel.springwebapp.entities.types;
 
 import org.springframework.security.core.GrantedAuthority;
 

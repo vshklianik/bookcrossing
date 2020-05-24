@@ -1,9 +1,8 @@
 package by.serhel.springwebapp.controllers;
 
 import by.serhel.springwebapp.entities.Book;
-import by.serhel.springwebapp.entities.GenreType;
+import by.serhel.springwebapp.entities.types.GenreType;
 import by.serhel.springwebapp.entities.User;
-import by.serhel.springwebapp.repositories.BookRepository;
 import by.serhel.springwebapp.service.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,17 +25,12 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @Autowired
-    private BookRepository bookRepository;
-
     @GetMapping()
     public String getMyBooks(@AuthenticationPrincipal User user, Model model){
         logger.info("start 'getMyBooks'");
-
         model.addAttribute("genres", GenreType.values());
         model.addAttribute("user", user);
-        model.addAttribute("books", bookRepository.findByAuthor(user));
-
+        model.addAttribute("books", bookService.findByAuthor(user));
         logger.info("finish 'getMyBooks'");
         return "myBooks";
     }
@@ -50,32 +44,29 @@ public class BookController {
                       @RequestParam("file") MultipartFile file) throws IOException
     {
         logger.info(" start 'add'");
-//        Book book = new Book();
         book.setAuthor(user)  ;
 
-        if(bindingResult.hasErrors()){
-            Map<String, String> errorMap = ControllerUtils.getErrors(bindingResult);
-            model.mergeAttributes(errorMap);
-            model.addAttribute("book", book);
-        }
-        else {
+//        if(bindingResult.hasErrors()){
+//            Map<String, String> errorMap = ControllerUtils.getErrors(bindingResult);
+//            model.mergeAttributes(errorMap);
+//            model.addAttribute("book", book);
+//        }
+//        else {
             book.setFilename(bookService.addFile(file));
-            model.addAttribute("book", null);
+//            model.addAttribute("book", null);
             bookService.saveBook(book, form);
-        }
-        Iterable<Book> books = bookRepository.findByAuthor(user);
-        model.addAttribute("books", books);
+//        }
+
+        model.addAttribute("books", bookService.findByAuthor(user));
         logger.info("finish 'add'");
-        return "myBooks";
+        return "redirect:/mybooks";
     }
 
     @GetMapping("/edit/{book}")
     public String editBook(@PathVariable Book book, Model model){
         logger.info("start 'editBook'");
-
         model.addAttribute("genres", GenreType.values());
         model.addAttribute("book", book);
-
         logger.info("finish 'editBook'");
         return "bookEdit";
     }
@@ -88,13 +79,11 @@ public class BookController {
                            @RequestParam("file") MultipartFile file) throws IOException
     {
         logger.info("start 'saveBook'");
-
         book.setAuthor(user);
         book.setFilename(bookService.saveFile(book, file));
         bookService.saveBook(book, form);
-        model.addAttribute("message", "Save book is successfully.");
-        model.addAttribute("books", bookRepository.findByAuthor(user));
-
+//        model.addAttribute("message", "Save book is successfully.");
+        model.addAttribute("books", bookService.findByAuthor(user));
         logger.info("finish 'saveBook'");
         return "redirect:/mybooks";
     }
@@ -103,10 +92,8 @@ public class BookController {
     public String deleteBook(@PathVariable Book book,
                              Model model) {
         logger.info("start 'deleteBook'");
-
         bookService.deleteBook(book);
-        model.addAttribute("message", "Delete book is successfully.");
-
+//        model.addAttribute("message", "Delete book is successfully.");
         logger.info("finish 'deleteBook'");
         return "redirect:/mybooks";
     }

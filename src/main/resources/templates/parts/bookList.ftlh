@@ -36,6 +36,6 @@
             </div>
         </div>
     <#else>
-        <@spring.messaage "message.nobooks"/>
+        <@spring.message "message.nobooks"/>
     </#list>
 </div>

@@ -1,5 +1,6 @@
 package by.serhel.springwebapp.entities;
 
+import by.serhel.springwebapp.entities.types.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -128,6 +129,14 @@ public class User implements UserDetails {
         this.activationCode = activationCode;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -148,11 +157,17 @@ public class User implements UserDetails {
         return Objects.hash(id, username, password, active, email, phoneNumber, activationCode, roles);
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", activationCode='" + activationCode + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

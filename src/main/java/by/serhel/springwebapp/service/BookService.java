@@ -1,11 +1,13 @@
 package by.serhel.springwebapp.service;
 
 import by.serhel.springwebapp.entities.Book;
-import by.serhel.springwebapp.entities.GenreType;
+import by.serhel.springwebapp.entities.types.GenreType;
+import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class BookService {
     @Autowired
@@ -20,10 +23,6 @@ public class BookService {
 
     @Value("${upload.path}")
     private String uploadPath;
-
-    public void deleteBook(Book book){
-        bookRepository.delete(book);
-    }
 
     public String addFile(MultipartFile file) throws IOException{
         if (file != null && !file.getOriginalFilename().isEmpty()) {
@@ -57,10 +56,6 @@ public class BookService {
 
     public void saveBook(Book book, Map<String, String> form){
         Set<String> set = Arrays.stream(GenreType.values()).map(GenreType::name).collect(Collectors.toSet());
-
-//        if(book.getGenre() != null){
-//            book.getGenre().clear();
-//        }
         Set<GenreType> bookGenre = new HashSet<>();
 
         for(String s : form.keySet()){
@@ -73,23 +68,22 @@ public class BookService {
         bookRepository.save(book);
     }
 
-//    public String getGenresAsString(){
-//        StringBuilder builder = new StringBuilder();
-//        for(GenreType s : GenreType.values()){
-//            builder.append(s.getValue() + ", ");
-//        }
-//        builder.delete(builder.length() - 1, builder.length());
-//        return builder.toString();
-//    }
+    public List<Book> findByAuthor(User author){
+        return bookRepository.findByAuthor(author);
+    }
 
-//    public Set<String> getGenresAsSet(){
-//        Set<String> values = new LinkedHashSet<>();
-//            for(GenreType g : GenreType.values()){
-//                System.out.println(g.getValue());
-//                if(g.getValue() != null){
-//                    values.add(g.getValue());
-//                }
-//            }
-//        return values;
-//    }
+    public Iterable<Book> getAllBooks(){
+        return bookRepository.findAll();
+    }
+
+    public List<Book> getBooksByGenre(String genre){
+        return bookRepository.findByGenre(genre);
+    }
+    public void deleteBook(Book book){
+        bookRepository.delete(book);
+    }
+
+    public void deleteAllBooksByAuthor(User user){
+        bookRepository.deleteAllByAuthor(user);
+    }
 }

@@ -1,11 +1,9 @@
 package by.serhel.springwebapp.entities;
 
-import org.hibernate.validator.constraints.Length;
+import by.serhel.springwebapp.entities.types.GenreType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Entity
 public class Book {
@@ -19,13 +17,12 @@ public class Book {
 //    @Length(max = 255, message = "Author name to long")
     private String authorName;
 
-//    private String genre;
     @ElementCollection(targetClass = GenreType.class, fetch = FetchType.LAZY)
     @CollectionTable(name = "genre", joinColumns = @JoinColumn(name = "book_id"))
     @Enumerated(EnumType.STRING)
     private Set<GenreType> genre;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author;
 
@@ -53,7 +50,6 @@ public class Book {
     public void setAuthor(User author) {
         this.author = author;
     }
-
 
     public Long getId() {
         return id;
@@ -87,11 +83,33 @@ public class Book {
         this.genre = genre;
     }
 
-//    public List<String> getListOfGenre() {
-//        List<String> list = new ArrayList<>();
-//        for(GenreType g : genre){
-//            list.add(g.getValue());
-//        }
-//        return list;
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(id, book.id) &&
+                Objects.equals(bookName, book.bookName) &&
+                Objects.equals(authorName, book.authorName) &&
+                Objects.equals(genre, book.genre) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(filename, book.filename);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, bookName, authorName, genre, author, filename);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", bookName='" + bookName + '\'' +
+                ", authorName='" + authorName + '\'' +
+                ", genre=" + genre +
+                ", author=" + author +
+                ", filename='" + filename + '\'' +
+                '}';
+    }
 }

@@ -52,7 +52,6 @@
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><@spring.message "button.search"/></button>
             </form>
-            ${springMacroRequestContext.getRequestUri()}
         </div>
     </nav>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">

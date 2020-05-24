@@ -2,7 +2,7 @@ package by.serhel.springwebapp.controllers;
 
 import by.serhel.springwebapp.entities.Book;
 import by.serhel.springwebapp.entities.User;
-import by.serhel.springwebapp.repositories.BookRepository;
+import by.serhel.springwebapp.service.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,12 @@ public class MainController {
     private static Logger logger = LogManager.getLogger(MainController.class.getName());
 
     @Autowired
-    private BookRepository bookRepository;
+    private BookService bookService;
 
     @GetMapping("/")
     public String homePage(Model model)
     {
         logger.info("return 'homePage'");
-
         return "home";
     }
 
@@ -33,10 +32,11 @@ public class MainController {
         logger.info("start 'main'");
         Iterable<Book> adverts;
         if(filter != null && !filter.isEmpty()){
-            adverts = bookRepository.findByGenre(filter);
+            adverts = bookService.getBooksByGenre(filter);
         }
         else{
-            adverts = bookRepository.findAll();      }
+            adverts = bookService.getAllBooks();
+        }
 
         model.addAttribute("books", adverts);
         model.addAttribute("filter", filter);
@@ -49,10 +49,7 @@ public class MainController {
     public String getUserProfile(@PathVariable Book book, Model model){
         logger.info("start 'getUserProfile'");
 
-        if(book.getAuthor() != null){
-            User user = book.getAuthor();
-            model.addAttribute("userInfo", user);
-        }
+        model.addAttribute("userInfo", book.getAuthor());
         model.addAttribute("book", book);
 
         logger.info("finish 'getUserProfile'");
@@ -64,7 +61,7 @@ public class MainController {
     public String deleteBook(@PathVariable Book book, Model model){
         logger.info("start 'deleteBook'");
 
-        bookRepository.delete(book);
+        bookService.deleteBook(book);
         model.addAttribute("message", "success");
 
         logger.info("finish 'deleteBook'");

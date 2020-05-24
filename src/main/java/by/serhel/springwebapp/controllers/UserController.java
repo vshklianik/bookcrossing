@@ -1,6 +1,6 @@
 package by.serhel.springwebapp.controllers;
 
-import by.serhel.springwebapp.entities.Role;
+import by.serhel.springwebapp.entities.types.Role;
 import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -26,9 +26,7 @@ public class UserController {
     @GetMapping
     public String userList(Model model){
         logger.info("start 'userList'");
-
         model.addAttribute("users", userService.findAll());
-
         logger.info("finish 'userList'");
         return "userList";
     }
@@ -37,10 +35,8 @@ public class UserController {
     @GetMapping("/edit/{user}")
     public String userEditForm(@PathVariable User user, Model model){
         logger.info("start 'userEditForm'");
-
         model.addAttribute("user", user);
         model.addAttribute("roles", Role.values());
-
         logger.info("finish 'userEditForm'");
         return "userEdit";
     }
@@ -49,12 +45,7 @@ public class UserController {
     @GetMapping("/delete/{user}")
     public String userDelete(@PathVariable User user, Model model){
         logger.info("start 'userDelete'");
-
-        if(userService.deleteUser(user)){
-            model.addAttribute("message", "user deleted");
-        }
-        model.addAttribute("message", "user not deleted");
-
+        userService.deleteUser(user);
         logger.info("finish 'userDelete'");
         return "redirect:/users";
     }
@@ -66,9 +57,7 @@ public class UserController {
             @RequestParam("userId") User user)
     {
         logger.info("start 'userSave'");
-
         userService.saveUser(user, username, form);
-
         logger.info("finish 'userSave'");
         return "redirect:/users";
     }
@@ -76,11 +65,7 @@ public class UserController {
     @GetMapping("/profile")
     public String getProfile(Model model, @AuthenticationPrincipal User user){
         logger.info("start 'getProfile'");
-
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
-        model.addAttribute("phoneNumber", user.getPhoneNumber());
-
+        model.addAttribute("user", user);
         logger.info("finish 'getProfile'");
         return "profile";
     }
@@ -92,9 +77,7 @@ public class UserController {
                                 @RequestParam String phoneNumber
     ){
         logger.info("start 'updateProfile'");
-
         userService.updateProfile(user, email, password, phoneNumber);
-
         logger.info("finish 'updateProfile'");
         return "redirect:/users/profile";
     }

@@ -71,16 +71,15 @@ public class RegistrationController {
     public String activate(Model model, @PathVariable String code){
         logger.info("start 'activate'");
 
-        boolean isActivated = userService.activateUser(code);
+        String message = "Activation code not found!";
+        String messageType = "danger";
 
-        if(isActivated){
-            model.addAttribute("message", "User successfully activated");
-            model.addAttribute("messageType", "success");
+        if(userService.activateUser(code)){
+            message= "User successfully activated";
+            messageType = "success";
         }
-        else{
-            model.addAttribute("message", "Activation code not found!");
-            model.addAttribute("messageType", "danger");
-        }
+        model.addAttribute("message", message);
+        model.addAttribute("messageType", messageType);
 
         logger.info("finish 'activate'");
         return "login";
