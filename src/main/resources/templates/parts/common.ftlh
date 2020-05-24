@@ -1,4 +1,5 @@
 <#macro page>
+    <#import "/spring.ftl" as spring>
     <!DOCTYPE html>
     <html lang="en">
     <head>

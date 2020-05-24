@@ -33,8 +33,6 @@ public class BookController {
     public String getMyBooks(@AuthenticationPrincipal User user, Model model){
         logger.info("start 'getMyBooks'");
 
-
-
         model.addAttribute("genres", GenreType.values());
         model.addAttribute("user", user);
         model.addAttribute("books", bookRepository.findByAuthor(user));

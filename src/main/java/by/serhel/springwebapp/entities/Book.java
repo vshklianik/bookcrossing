@@ -87,11 +87,11 @@ public class Book {
         this.genre = genre;
     }
 
-    public List<String> getListOfGenre() {
-        List<String> list = new ArrayList<>();
-        for(GenreType g : genre){
-            list.add(g.getValue());
-        }
-        return list;
-    }
+//    public List<String> getListOfGenre() {
+//        List<String> list = new ArrayList<>();
+//        for(GenreType g : genre){
+//            list.add(g.getValue());
+//        }
+//        return list;
+//    }
 }

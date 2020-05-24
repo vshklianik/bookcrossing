@@ -82,14 +82,14 @@ public class BookService {
 //        return builder.toString();
 //    }
 
-    public Set<String> getGenresAsSet(){
-        Set<String> values = new LinkedHashSet<>();
-            for(GenreType g : GenreType.values()){
-                System.out.println(g.getValue());
-                if(g.getValue() != null){
-                    values.add(g.getValue());
-                }
-            }
-        return values;
-    }
+//    public Set<String> getGenresAsSet(){
+//        Set<String> values = new LinkedHashSet<>();
+//            for(GenreType g : GenreType.values()){
+//                System.out.println(g.getValue());
+//                if(g.getValue() != null){
+//                    values.add(g.getValue());
+//                }
+//            }
+//        return values;
+//    }
 }

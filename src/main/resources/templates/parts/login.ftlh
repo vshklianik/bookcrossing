@@ -1,22 +1,23 @@
-<style>
-    .form-control[type=text]:valid {
-        color: green
-    }
+<#--<style>-->
+<#--    .form-control[type=text]:valid {-->
+<#--        color: green-->
+<#--    }-->
 
-    .form-control[type=text]:invalid {
-        color: red
-    }
-</style>
+<#--    .form-control[type=text]:invalid {-->
+<#--        color: red-->
+<#--    }-->
+<#--</style>-->
 <#macro login path>
+    <#import "/spring.ftl" as spring>
     <div class="form-group col-sm-5">
         <form action="${path}" method="post">
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username"><@spring.message "label.username"/></label>
                 <div>
                     <input type="text" id="username" name="username"
                            class="form-control ${(usernameError??)?string('is-invalid', '')}"
                            value="<#if user??>${user.username}</#if>"
-                           placeholder="Username"
+                           placeholder="<@spring.message "label.username"/>"
                            pattern="[a-zA-Z0-9]{4,12}">
                     <#--                    <p class="help-block">Username should be at least 4 characters</p>-->
                     <#if usernameError??>
@@ -27,11 +28,11 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password"><@spring.message "label.password"/></label>
                 <div>
                     <input type="password" id="password" name="password"
                            class="form-control ${(passwordError??)?string('is-invalid', '')}"
-                           placeholder="Password" pattern="[a-zA-Z0-9_-]{4,12}">
+                           placeholder="<@spring.message "label.password"/>" pattern="[a-zA-Z0-9_-]{4,12}">
                     <#--                    <p class="help-block">Password should be at least 4 characters</p>-->
                     <#if passwordError??>
                         <div class="invalid-feedback">
@@ -42,11 +43,11 @@
             </div>
             <#if path == "/registration">
                 <div class="form-group">
-                    <label for="password1">Password</label>
+                    <label for="password1"><@spring.message "label.confirmpassword"/></label>
                     <div>
                         <input type="password" id="password1" name="password1"
                                class="form-control ${(password1Error??)?string('is-invalid', '')}"
-                               placeholder="Confirm password" pattern="[a-zA-Z0-9_-]{4,12}">
+                               placeholder="<@spring.message "label.confirmpassword"/>" pattern="[a-zA-Z0-9_-]{4,12}">
                         <#--                    <p class="help-block">Password should be at least 4 characters</p>-->
                         <#if password1Error??>
                             <div class="invalid-feedback">
@@ -56,11 +57,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email"><@spring.message "label.email"/></label>
                     <div>
                         <input type="email" id="email" name="email"
                                class="form-control ${(emailError??)?string('is-invalid', '')}"
-                               value="<#if user??>${user.email}</#if>" placeholder="Your email">
+                               value="<#if user??>${user.email}</#if>" placeholder="<@spring.message "label.email"/>">
                         <#if emailError??>
                             <div class="invalid-feedback">
                                 ${emailError}
@@ -71,17 +72,18 @@
             </#if>
             <input type="hidden" name="_csrf" value="${_csrf.token}" />
             <#if path != "/registration">
-                <a href="/registration" class="btn btn-success">Create an account</a>
+                <a href="/registration" class="btn btn-success"><@spring.message "button.registration"/></a>
             </#if>
-            <button type="submit" class="btn btn-primary pull-right">Sing in</button>
+            <button type="submit" class="btn btn-primary pull-right"><@spring.message "button.singin"/></button>
         </form>
 
     </div>
 </#macro>
 
 <#macro logout>
+    <#import "/spring.ftl" as spring>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <button type="submit" class="btn btn-primary mr-3">Sign out</button>
+        <button type="submit" class="btn btn-primary mr-3"><@spring.message "button.singout"/></button>
     </form>
 </#macro>
