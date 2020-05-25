@@ -7,11 +7,13 @@
             <@spring.message "message.deletebook"/>
         </div>
     </#if>
-
-    <div class="form-row">
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddBook" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <@spring.message "button.filter"/>
+    </a>
+    <div class="collapse <#if book??>show</#if>" id="collapseAddBook">
         <div class="form-group col-md-6">
-            <form method="get" action="/books" class="form-inline">
-                <input type="text" class="form-control" name="filter" value="${filter?if_exists}" placeholder="<@spring.message "label.findbygenre"/>">
+            <form method="get" action="/books">
+                <#include "parts/genresAdd.ftlh">
                 <button type="submit" class="btn btn-outline-primary ml-2"><@spring.message "button.search"/></button>
             </form>
         </div>

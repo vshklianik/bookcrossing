@@ -1,10 +1,10 @@
 <#import "/spring.ftl" as spring>
-<div class="card-columns">
+<div class="card-columns" id="books-list">
     <#list books as book>
         <div class="card my-3">
             <div>
                 <#if book.filename??>
-                    <img src="/img/${book.filename}" class="card-img-top">
+                    <img src="/img/${book.filename}" class="card-img-top"/>
                 </#if>
             </div>
             <div class="card-title">
@@ -12,14 +12,12 @@
             </div>
             <div class="card-body m-2">
                 <p>${book.authorName}</p>
-
-                </p>
                 <p>
-                <#list book.genre as genre>
-                    <@spring.message "genre.${genre}"/><#if genre_has_next>, </#if>
-                </#list>
+                    <#list book.genre as genre>
+                        <@spring.message "genre.${genre}"/><#if genre_has_next>, </#if>
+                    </#list>
                 </p>
-                <#if springMacroRequestContext.getRequestUri() == "/books">
+                <#if springMacroRequestContext.getRequestUri()?contains('/books')>
                     <#if isAdmin>
                         <a href="/books/${book.id}" class="btn btn-primary"><@spring.message "button.moreinfo"/></a>
                         <a href="/books/delete/${book.id}" class="btn btn-danger"><@spring.message "button.delete"/></a>

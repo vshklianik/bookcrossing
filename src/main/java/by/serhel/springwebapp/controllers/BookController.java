@@ -30,7 +30,7 @@ public class BookController {
         logger.info("start 'getMyBooks'");
         model.addAttribute("genres", GenreType.values());
         model.addAttribute("user", user);
-        model.addAttribute("books", bookService.findByAuthor(user));
+        model.addAttribute("books", bookService.getBooksByAuthor(user));
         logger.info("finish 'getMyBooks'");
         return "myBooks";
     }
@@ -45,19 +45,9 @@ public class BookController {
     {
         logger.info(" start 'add'");
         book.setAuthor(user)  ;
-
-//        if(bindingResult.hasErrors()){
-//            Map<String, String> errorMap = ControllerUtils.getErrors(bindingResult);
-//            model.mergeAttributes(errorMap);
-//            model.addAttribute("book", book);
-//        }
-//        else {
-            book.setFilename(bookService.addFile(file));
-//            model.addAttribute("book", null);
-            bookService.saveBook(book, form);
-//        }
-
-        model.addAttribute("books", bookService.findByAuthor(user));
+        book.setFilename(bookService.addFile(file));
+        bookService.saveBook(book, form);
+        model.addAttribute("books", bookService.getBooksByAuthor(user));
         logger.info("finish 'add'");
         return "redirect:/mybooks";
     }
@@ -82,8 +72,7 @@ public class BookController {
         book.setAuthor(user);
         book.setFilename(bookService.saveFile(book, file));
         bookService.saveBook(book, form);
-//        model.addAttribute("message", "Save book is successfully.");
-        model.addAttribute("books", bookService.findByAuthor(user));
+        model.addAttribute("books", bookService.getBooksByAuthor(user));
         logger.info("finish 'saveBook'");
         return "redirect:/mybooks";
     }
@@ -93,7 +82,6 @@ public class BookController {
                              Model model) {
         logger.info("start 'deleteBook'");
         bookService.deleteBook(book);
-//        model.addAttribute("message", "Delete book is successfully.");
         logger.info("finish 'deleteBook'");
         return "redirect:/mybooks";
     }

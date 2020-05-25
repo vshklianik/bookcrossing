@@ -38,24 +38,23 @@
                     <option value="ru" ><@spring.message "lang.ru"/></option>
                 </select>
             </div>
-            <div class="navbar-text mr-3">${name}</div>
+            <div class="navbar-text mr-3" id="username">${name}</div>
             <#if user??>
                 <@l.logout />
-                <#else >
-                    <div class="mr-3">
-                        <a href="/login" class="btn btn-primary"><@spring.message "button.singin"/></a>
-                    </div>
+            <#else >
+                <div class="mr-3">
+                    <a href="/login" class="btn btn-primary"><@spring.message "button.singin"/></a>
+                </div>
             </#if>
 
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="<@spring.message "label.search"/>" aria-label="Search">
+            <form action="/books" class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" name="searchText" placeholder="<@spring.message "label.search"/>" aria-label="Search"/>
                 <input type="hidden" name="_csrf" value="${_csrf.token}" />
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><@spring.message "button.search"/></button>
             </form>
         </div>
     </nav>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $("#locales").change(function () {

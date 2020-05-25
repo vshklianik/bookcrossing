@@ -8,14 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.GeneratedValue;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Transactional
 @Service
 public class BookService {
     @Autowired
@@ -68,21 +69,55 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<Book> findByAuthor(User author){
+    public Iterable<Book> getBooks(String searchText, Map<String, String> genre) {
+        Iterable<Book> adverts;
+
+        if(searchText != null && !StringUtils.isEmpty(searchText)){
+            adverts = getBooksByName(searchText);
+        }
+        else if(genre != null && !genre.isEmpty()){
+            adverts = getBooksByGenre(genre);
+        }
+        else{
+            adverts = getAllBooks();
+        }
+        return adverts;
+    }
+
+    public List<Book> getBooksByAuthor(User author){
         return bookRepository.findByAuthor(author);
+    }
+
+    public List<Book> getBooksByName(String searchText){
+        return bookRepository.findByBookName(searchText);
     }
 
     public Iterable<Book> getAllBooks(){
         return bookRepository.findAll();
     }
 
-    public List<Book> getBooksByGenre(String genre){
-        return bookRepository.findByGenre(genre);
+    public List<Book> getBooksByGenre(Map<String, String> genre){
+        Iterable<Book> iterable = bookRepository.findAll();
+        List<Book> books = new ArrayList<>();
+        boolean check = true;
+        for(Book book : iterable){
+            for(String s : genre.keySet()){
+                if(!book.getGenre().contains(GenreType.valueOf(s))){
+                    check = false;
+                }
+            }
+            if(check){
+                books.add(book);
+            }
+            check = true;
+        }
+        return books;
     }
     public void deleteBook(Book book){
         bookRepository.delete(book);
     }
 
+    @Transactional
     public void deleteAllBooksByAuthor(User user){
         bookRepository.deleteAllByAuthor(user);
     }

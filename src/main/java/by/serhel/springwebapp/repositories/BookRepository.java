@@ -9,5 +9,6 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Long> {
     List<Book> findByGenre(String genre);
     List<Book> findByAuthor(User user);
+    List<Book> findByBookName(String searchText);
     void deleteAllByAuthor(User user);
 }

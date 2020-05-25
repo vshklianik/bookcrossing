@@ -5,7 +5,7 @@
         <div class="row no-gutters">
             <div class="col-md-4">
                 <#if book.filename??>
-                <img src="/img/${book.filename}" class="card-img">
+                    <img src="/img/${book.filename}" class="card-img"/>
                 </#if>
             </div>
             <div class="col-md-8">
