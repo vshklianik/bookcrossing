@@ -2,7 +2,7 @@ package by.serhel.springwebapp.service;
 
 import by.serhel.springwebapp.entities.types.Role;
 import by.serhel.springwebapp.entities.User;
-import by.serhel.springwebapp.repositories.UserRepository;
+import by.serhel.springwebapp.repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Autowired
     private BookService bookService;
@@ -85,6 +85,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public void save(User user){
+        userRepository.save(user);
+    }
+
     public void saveUser(User user, String username, Map<String, String> form) {
         user.setUsername(username);
         Set<String> roles = Arrays.stream(Role.values())
@@ -101,7 +105,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void updateProfile(User user, String email, String password, String phoneNumber) {
+    public void updateProfile(User user, String firstName, String lastName, String email, String password, String phoneNumber) {
         String userEmail = user.getEmail();
 
         if(email != null && !email.equals(userEmail) || userEmail != null && !userEmail.equals(email)
@@ -112,6 +116,14 @@ public class UserService implements UserDetailsService {
                 user.setActivationCode(UUID.randomUUID().toString());
             }
             sendMessage(user);
+        }
+
+        if(!StringUtils.isEmpty(firstName)){
+            user.setFirstName(firstName);
+        }
+
+        if(!StringUtils.isEmpty(lastName)){
+            user.setLastName(lastName);
         }
 
         if(!StringUtils.isEmpty(phoneNumber)){

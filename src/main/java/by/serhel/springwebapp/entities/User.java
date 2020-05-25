@@ -1,6 +1,7 @@
 package by.serhel.springwebapp.entities;
 
 import by.serhel.springwebapp.entities.types.Role;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,15 +19,26 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank(message = "Username cannot be empty")
+    @NotBlank(message = "message.correct.username")
+    @Length(max = 255, message = "message.length.username")
     private String username;
-    @NotBlank(message = "Password cannot be empty")
+
+    @NotBlank(message = "message.correct.password")
+    @Length(max = 255, message = "message.length.password")
     private String password;
+
+    @NotBlank(message = "message.correct.firstname")
+    @Length(max = 255, message = "message.length.firstname")
+    private String firstName;
+
+    @NotBlank(message = "message.correct.lastname")
+    @Length(max = 255, message = "message.length.lastname")
+    private String lastName;
 
     private boolean active;
 
-    @Email(message = "Email is not correct")
-    @NotBlank(message = "Email cannot be empty")
+    @Email(message = "message.correct.email")
+    @NotBlank(message = "message.empty.email")
     private String email;
 
     private String phoneNumber;
@@ -135,6 +147,22 @@ public class User implements UserDetails {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     @Override

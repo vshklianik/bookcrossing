@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Map;
 
@@ -37,24 +38,33 @@ public class BookController {
 
     @PostMapping()
     public String add(@AuthenticationPrincipal User user,
-                      Book book,
+                      @RequestParam("file") MultipartFile file,
                       @RequestParam Map<String, String> form,
+                      @Valid Book book,
                       BindingResult bindingResult,
-                      Model model,
-                      @RequestParam("file") MultipartFile file) throws IOException
+                      Model model) throws IOException
     {
         logger.info(" start 'add'");
-        book.setAuthor(user)  ;
-        book.setFilename(bookService.addFile(file));
-        bookService.saveBook(book, form);
+        if (bindingResult.hasErrors()) {
+            book.setAuthor(user);
+            model.addAttribute("bookError", book);
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+        } else {
+            model.addAttribute("book", null);
+            bookService.saveBook(user, file, book, form);
+        }
+        model.addAttribute("genres", GenreType.values());
+        model.addAttribute("user", user);
         model.addAttribute("books", bookService.getBooksByAuthor(user));
         logger.info("finish 'add'");
-        return "redirect:/mybooks";
+        return "myBooks";
     }
 
     @GetMapping("/edit/{book}")
     public String editBook(@PathVariable Book book, Model model){
         logger.info("start 'editBook'");
+
         model.addAttribute("genres", GenreType.values());
         model.addAttribute("book", book);
         logger.info("finish 'editBook'");
@@ -63,16 +73,21 @@ public class BookController {
 
     @PostMapping("edit/")
     public String saveBook(@AuthenticationPrincipal User user,
-                           Book book,
+                           @Valid Book book,
+                           BindingResult bindingResult,
                            Model model,
                            @RequestParam Map<String, String> form,
                            @RequestParam("file") MultipartFile file) throws IOException
     {
         logger.info("start 'saveBook'");
-        book.setAuthor(user);
-        book.setFilename(bookService.saveFile(book, file));
-        bookService.saveBook(book, form);
-        model.addAttribute("books", bookService.getBooksByAuthor(user));
+        model.addAttribute("genres", GenreType.values());
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("bookError", book);
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            return "bookEdit";
+        }
+        bookService.saveBook(user, file, book, form);
         logger.info("finish 'saveBook'");
         return "redirect:/mybooks";
     }

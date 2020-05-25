@@ -16,7 +16,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import java.util.Locale;
 
 @Configuration
-public class MvcConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
 

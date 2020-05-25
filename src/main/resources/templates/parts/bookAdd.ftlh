@@ -2,24 +2,24 @@
 <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddBook" role="button" aria-expanded="false" aria-controls="collapseExample">
     <@spring.message "button.addbook"/>
 </a>
-<div class="collapse <#if book??>show</#if>" id="collapseAddBook">
+<div class="collapse <#if (bookError)?exists>show</#if>" id="collapseAddBook">
     <div class="form-group mt-2">
         <form action="/mybooks" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="text" class="form-control ${(bookNameError??)?string('is-invalid', '')}"
-                       value="<#if book??>${book.bookName}</#if>" name="bookName" placeholder="<@spring.message "label.bookname"/>"/>
+                       value="<#if book??>${bookError.bookName}</#if>" name="bookName" placeholder="<@spring.message "label.bookname"/>"/>
                 <#if bookNameError??>
                     <div class="invalid-feedback">
-                        ${bookNameError}
+                        <@spring.message "${bookNameError}"/>
                     </div>
                 </#if>
             </div>
             <div class="form-group">
                 <input type="text" class="form-control ${(authorNameError??)?string('is-invalid', '')}"
-                       value="<#if book??>${book.authorName}</#if>" name="authorName" placeholder="<@spring.message "label.authorname"/>"/>
+                       value="<#if book??>${bookError.authorName}</#if>" name="authorName" placeholder="<@spring.message "label.authorname"/>"/>
                 <#if authorNameError??>
                     <div class="invalid-feedback">
-                        ${authorNameError}
+                        <@spring.message "${authorNameError}"/>
                     </div>
                 </#if>
             </div>

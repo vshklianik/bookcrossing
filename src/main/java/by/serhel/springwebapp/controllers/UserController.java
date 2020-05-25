@@ -10,8 +10,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.xml.ws.BindingType;
 import java.util.Map;
 
 @Controller
@@ -72,12 +75,14 @@ public class UserController {
 
     @PostMapping("/profile")
     public String updateProfile(@AuthenticationPrincipal User user,
+                                @RequestParam String firstName,
+                                @RequestParam String lastName,
                                 @RequestParam String email,
                                 @RequestParam String password,
                                 @RequestParam String phoneNumber
     ){
         logger.info("start 'updateProfile'");
-        userService.updateProfile(user, email, password, phoneNumber);
+        userService.updateProfile(user, firstName, lastName, email, password, phoneNumber);
         logger.info("finish 'updateProfile'");
         return "redirect:/users/profile";
     }

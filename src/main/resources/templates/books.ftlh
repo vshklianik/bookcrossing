@@ -2,11 +2,6 @@
 <#include "parts/security.ftlh">
 <#import "/spring.ftl" as spring>
 <@c.page>
-    <#if message??>
-        <div class="alert alert-${message}" role="alert">
-            <@spring.message "message.deletebook"/>
-        </div>
-    </#if>
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseAddBook" role="button" aria-expanded="false" aria-controls="collapseExample">
         <@spring.message "button.filter"/>
     </a>

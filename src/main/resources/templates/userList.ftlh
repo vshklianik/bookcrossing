@@ -1,6 +1,11 @@
 <#import "parts/common.ftlh" as c>
 <#import "/spring.ftl" as spring>
 <@c.page>
+    <#if message??>
+        <div class="alert alert-${message}" role="alert">
+            <@spring.message "message.deletebook"/>
+        </div>
+    </#if>
     <@spring.message "message.userlist"/>
     <table class="table">
         <thead>

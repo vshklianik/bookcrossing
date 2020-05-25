@@ -32,27 +32,27 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@RequestParam("password1") String passwordComfirm,
+    public String addUser(@RequestParam("password1") String passwordConfirm,
                           @Valid User user,
                           BindingResult bindingResult,
                           Model model
     ){
         logger.info("start 'addUser'");
 
-        boolean passwordConfirmEmpty = StringUtils.isEmpty(passwordComfirm);
+        boolean passwordConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
 
         if(passwordConfirmEmpty){
-            model.addAttribute("password1Error", "Password confirmation cannot be empty");
+            model.addAttribute("password1Error", "message.correct.password1");
         }
 
-        if(user.getPassword() != null && !user.getPassword().equals(passwordComfirm)){
-            model.addAttribute("passwordError", "Password are different!");
+        if(user.getPassword() != null && !user.getPassword().equals(passwordConfirm)){
+            model.addAttribute("passwordError", "message.confirm.password");
         }
 
         model.addAttribute("user", null);
 
         if(passwordConfirmEmpty || bindingResult.hasErrors()){
-            model.addAttribute("user", user);
+            model.addAttribute("user+", user);
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";

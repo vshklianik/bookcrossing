@@ -1,8 +1,10 @@
 package by.serhel.springwebapp.entities;
 
 import by.serhel.springwebapp.entities.types.GenreType;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.*;
 
 @Entity
@@ -11,10 +13,11 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @NotBlank(message = "Please fill the book name")
-//    @Length(max = 255, message = "Book name to long")
+    @NotBlank(message = "message.correct.bookname")
+    @Length(max = 255, message = "message.length.bookname")
     private String bookName;
-//    @Length(max = 255, message = "Author name to long")
+    @NotBlank(message = "message.correct.authorname")
+    @Length(max = 255, message = "message.length.authorname")
     private String authorName;
 
     @ElementCollection(targetClass = GenreType.class, fetch = FetchType.LAZY)

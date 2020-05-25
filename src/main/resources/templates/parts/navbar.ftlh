@@ -16,7 +16,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/books"><@spring.message "navbar.item.books"/></a>
                 </li>
-                <#if user??>
+                <#if user?? && user.password?exists && user.password != ''>
                     <li class="nav-item">
                         <a class="nav-link" href="/mybooks"><@spring.message "navbar.item.mybooks"/></a>
                     </li>
@@ -39,7 +39,7 @@
                 </select>
             </div>
             <div class="navbar-text mr-3" id="username">${name}</div>
-            <#if user??>
+            <#if user?? && user.password?exists && user.password != ''>
                 <@l.logout />
             <#else >
                 <div class="mr-3">

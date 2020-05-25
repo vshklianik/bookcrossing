@@ -1,7 +1,6 @@
 package by.serhel.springwebapp.controllers;
 
 import by.serhel.springwebapp.entities.Book;
-import by.serhel.springwebapp.entities.User;
 import by.serhel.springwebapp.entities.types.GenreType;
 import by.serhel.springwebapp.service.BookService;
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +38,7 @@ public class MainController {
         model.addAttribute("books", adverts);
 
         logger.info("finish 'main'");
-        return "Books";
+        return "books";
     }
 
     @GetMapping("/books/{book}")

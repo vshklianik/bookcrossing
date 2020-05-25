@@ -3,7 +3,7 @@ package by.serhel.springwebapp.service;
 import by.serhel.springwebapp.entities.Book;
 import by.serhel.springwebapp.entities.types.GenreType;
 import by.serhel.springwebapp.entities.User;
-import by.serhel.springwebapp.repositories.BookRepository;
+import by.serhel.springwebapp.repositories.IBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.GeneratedValue;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class BookService {
     @Autowired
-    private BookRepository bookRepository;
+    private IBookRepository bookRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -55,7 +54,16 @@ public class BookService {
         return resultFileName;
     }
 
-    public void saveBook(Book book, Map<String, String> form){
+    public void saveBook(User user, MultipartFile file, Book book, Map<String, String> form) throws IOException{
+        book.setAuthor(user);
+        book.setFilename(saveFile(book, file));
+        Set<GenreType> bookGenre = getGenreTypesFromForm(form);
+        book.setGenre(bookGenre);
+
+        bookRepository.save(book);
+    }
+
+    private Set<GenreType> getGenreTypesFromForm(Map<String, String> form) {
         Set<String> set = Arrays.stream(GenreType.values()).map(GenreType::name).collect(Collectors.toSet());
         Set<GenreType> bookGenre = new HashSet<>();
 
@@ -64,18 +72,18 @@ public class BookService {
                 bookGenre.add(GenreType.valueOf(s));
             }
         }
-        book.setGenre(bookGenre);
-
-        bookRepository.save(book);
+        return bookGenre;
     }
 
     public Iterable<Book> getBooks(String searchText, Map<String, String> genre) {
         Iterable<Book> adverts;
 
+        Set<GenreType> bookGenre = getGenreTypesFromForm(genre);
+
         if(searchText != null && !StringUtils.isEmpty(searchText)){
             adverts = getBooksByName(searchText);
         }
-        else if(genre != null && !genre.isEmpty()){
+        else if(!bookGenre.isEmpty()){
             adverts = getBooksByGenre(genre);
         }
         else{

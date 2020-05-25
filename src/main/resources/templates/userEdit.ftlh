@@ -2,7 +2,7 @@
 <#import "/spring.ftl" as spring>
 <@c.page>
 <#--    <@spring.message "message.useredit"/>-->
-    <form action="/users/edit" method="post">
+    <form action="/mybooks/edit/" method="post">
         <div class="form-group mt-3">
             <label for="username" ><@spring.message "label.editusername"/></label>
             <input type="text" class="form-control" name="username" value="${user.username}" placeholder="<@spring.message "label.username"/>"/>
