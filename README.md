@@ -36,5 +36,5 @@ This web application can be used as a means by which people will exchange books.
 ![alt text](https://github.com/nikolasergel/bookcrossing/blob/master/screenshots/Profile.png)
 
 
-**Profile**
+**Users list**
 ![alt text](https://github.com/nikolasergel/bookcrossing/blob/master/screenshots/Users.png)
