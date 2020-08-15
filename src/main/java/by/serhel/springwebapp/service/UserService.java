@@ -30,7 +30,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     private MailSender mailSender;
 
-    @Value("mail.message")
+    @Value("${mail.message}")
     private String mailMessage;
 
     @Override
@@ -89,8 +89,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void saveUser(User user, String username, Map<String, String> form) {
-        user.setUsername(username);
+    public void saveUser(User user,Map<String, String> form) {
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());

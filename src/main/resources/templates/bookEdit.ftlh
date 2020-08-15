@@ -5,7 +5,7 @@
         <form action="/mybooks/edit/" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <input type="text" class="form-control ${(bookNameError??)?string('is-invalid', '')}"
-                       value="<#if bookError??>${book.bookName}</#if>" name="bookName" placeholder="<@spring.message "label.bookname"/>"/>
+                       value="${book.bookName?if_exists}" name="bookName" placeholder="<@spring.message "label.bookname"/>"/>
                 <#if bookNameError??>
                     <div class="invalid-feedback">
                         <@spring.message "${bookNameError}"/>
@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                 <input type="text" class="form-control ${(authorNameError??)?string('is-invalid', '')}"
-                       value="<#if bookError??>${book.authorName}</#if>" name="authorName" placeholder="<@spring.message "label.authorname"/>"/>
+                       value="${book.authorName?if_exists}" name="authorName" placeholder="<@spring.message "label.authorname"/>"/>
                 <#if authorNameError??>
                     <div class="invalid-feedback">
                         <@spring.message "${authorNameError}"/>
@@ -28,7 +28,7 @@
                 </div>
                 <input type="hidden" name="id" value="${book.id}" />
                 <input type="hidden" name="filename" value="<#if book.filename??>${book.filename}</#if>" />
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#--                <input type="hidden" name="_csrf" value="${_csrf.token}" />-->
             </div>
             <div class="form-group">
                 <#include "parts/genresAdd.ftlh">

@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Map;
 
 @Controller
@@ -35,7 +37,8 @@ public class RegistrationController {
     public String addUser(@RequestParam("password1") String passwordConfirm,
                           @Valid User user,
                           BindingResult bindingResult,
-                          Model model
+                          Model model,
+                          HttpServletResponse httpResponse
     ){
         logger.info("start 'addUser'");
 
@@ -52,7 +55,7 @@ public class RegistrationController {
         model.addAttribute("user", null);
 
         if(passwordConfirmEmpty || bindingResult.hasErrors()){
-            model.addAttribute("user+", user);
+            model.addAttribute("user", user);
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";
@@ -62,9 +65,11 @@ public class RegistrationController {
             model.addAttribute("userError", "User exist");
             return "registration";
         }
+        model.addAttribute("messageSuccess", "Registration is successfully");
 
-        logger.info("finish 'addUser'");
-        return "redirect:/login";
+        logger.info("finish 'addUser' and redirect to /login");
+
+        return "login";
     }
 
     @GetMapping("/activate/{code}")

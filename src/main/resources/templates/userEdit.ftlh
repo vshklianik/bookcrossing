@@ -1,19 +1,26 @@
 <#import "parts/common.ftlh" as c>
 <#import "/spring.ftl" as spring>
 <@c.page>
-<#--    <@spring.message "message.useredit"/>-->
-    <form action="/mybooks/edit/" method="post">
-        <div class="form-group mt-3">
-            <label for="username" ><@spring.message "label.editusername"/></label>
-            <input type="text" class="form-control" name="username" value="${user.username}" placeholder="<@spring.message "label.username"/>"/>
-        </div>
-        <#list roles as role>
-            <div class="mb-3">
-                <label><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}/>${role}</label>
-            </div>
-        </#list>
+    <@spring.message "message.useredit"/>
+    <form action="/users/edit/" method="post">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col"><@spring.message "tablehead.selected"/></th>
+                <th scope="col"><@spring.message "tablehead.roles"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <#list roles as role>
+                <tr>
+                    <th><input type="checkbox" name="${role}" ${user.roles?seq_contains(role)?string("checked", "")}/></th>
+                    <td>${role}</td>
+                </tr>
+            </#list>
+            </tbody>
+        </table>
         <input type="hidden" name="userId" value="${user.id}"/>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--        <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
         <button type="submit" class="btn btn-outline-primary"><@spring.message "button.save"/></button>
     </form>
 </@c.page>

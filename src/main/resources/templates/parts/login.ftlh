@@ -2,6 +2,7 @@
     <#import "/spring.ftl" as spring>
     <div class="form-group col-sm-5">
         <form action="${path}" method="post">
+            ${path}
             <div class="form-group">
                 <label for="username"><@spring.message "label.username"/></label>
                 <div>
@@ -88,7 +89,7 @@
                     </div>
                 </div>
             </#if>
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#--            <input type="hidden" name="_csrf" value="${_csrf.token}" />-->
             <#if path != "/registration">
                 <a href="/registration" class="btn btn-success"><@spring.message "button.registration"/></a>
                 <#else>
@@ -104,7 +105,7 @@
 <#macro logout>
     <#import "/spring.ftl" as spring>
     <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#--        <input type="hidden" name="_csrf" value="${_csrf.token}" />-->
         <button type="submit" class="btn btn-primary mr-3"><@spring.message "button.singout"/></button>
     </form>
 </#macro>

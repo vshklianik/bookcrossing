@@ -18,6 +18,9 @@
                     </p>
                     <p class="card-text"><span class="text-muted"><@spring.message "prelabel.authorname"/></span>${book.getAuthorName()}</p>
                     <#if userInfo??>
+                        <#if userInfo.getFirstName()?? && userInfo.getLastName()??>
+                            <p class="card-text"><span class="text-muted"><@spring.message "prelabel.name"/></span>${userInfo.getFirstName()} ${userInfo.getLastName()}</p>
+                        </#if>
                         <#if userInfo.getEmail()??>
                             <p class="card-text"><span class="text-muted"><@spring.message "prelabel.email"/></span>${userInfo.getEmail()}</p>
                         </#if>

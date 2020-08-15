@@ -36,7 +36,7 @@
                 </div>
             </div>
             <input type="hidden" name="username" value="${user.username}" />
-            <input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#--            <input type="hidden" name="_csrf" value="${_csrf.token}" />-->
             <button type="submit" class="btn btn-primary"><@spring.message "button.save"/></button>
         </form>
     </div>

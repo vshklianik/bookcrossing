@@ -28,7 +28,7 @@
                     <input type="file" class="custom-file-input" name="file" id="customFile"/>
                     <label class="custom-file-label" for="customFile"><@spring.message "label.selectpicture"/></label>
                 </div>
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#--                <input type="hidden" name="_csrf" value="${_csrf.token}" />-->
             </div>
             <#include "genresAdd.ftlh">
             <div class="form-group">

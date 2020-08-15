@@ -49,7 +49,7 @@
 
             <form action="/books" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" name="searchText" placeholder="<@spring.message "label.search"/>" aria-label="Search"/>
-                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+<#--                <input type="hidden" name="_csrf" value="${_csrf.token}" />-->
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><@spring.message "button.search"/></button>
             </form>
         </div>
