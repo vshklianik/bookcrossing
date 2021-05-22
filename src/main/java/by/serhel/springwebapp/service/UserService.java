@@ -27,12 +27,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private MailSender mailSender;
-
-    @Value("${mail.message}")
-    private String mailMessage;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -49,36 +43,11 @@ public class UserService implements UserDetailsService {
         if(userFromDb == null){
             user.setActive(true);
             user.setRoles(Collections.singleton(Role.USER));
-            user.setActivationCode(UUID.randomUUID().toString());
             user.setPassword(passwordEncoder.encode(user.getPassword()));
-
             userRepository.save(user);
-
-            sendMessage(user);
             return true;
         }
         return false;
-    }
-
-    private void sendMessage(User user) {
-        if(!StringUtils.isEmpty(user.getEmail())){
-            String message = String.format(mailMessage,
-                    user.getUsername(), user.getActivationCode());
-
-            mailSender.send(user.getEmail(), "Activation code", message);
-        }
-    }
-
-    public boolean activateUser(String code) {
-        User user = userRepository.findByActivationCode(code);
-
-        if(user == null){
-            return false;
-        }
-        user.setActivationCode(null);
-        userRepository.save(user);
-
-        return true;
     }
 
     public List<User> findAll() {
@@ -109,8 +78,6 @@ public class UserService implements UserDetailsService {
 
         if(email != null && !email.equals(userEmail) && email.matches("[\\w\\.%+-]+@\\w+\\.\\w{2,3}")){
             user.setEmail(email);
-            user.setActivationCode(UUID.randomUUID().toString());
-            sendMessage(user);
         }
 
         if(!StringUtils.isEmpty(firstName)){

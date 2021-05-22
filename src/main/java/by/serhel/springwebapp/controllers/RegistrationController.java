@@ -71,22 +71,4 @@ public class RegistrationController {
 
         return "login";
     }
-
-    @GetMapping("/activate/{code}")
-    public String activate(Model model, @PathVariable String code){
-        logger.info("start 'activate'");
-
-        String message = "Activation code not found!";
-        String messageType = "danger";
-
-        if(userService.activateUser(code)){
-            message= "User successfully activated";
-            messageType = "success";
-        }
-        model.addAttribute("message", message);
-        model.addAttribute("messageType", messageType);
-
-        logger.info("finish 'activate'");
-        return "login";
-    }
 }

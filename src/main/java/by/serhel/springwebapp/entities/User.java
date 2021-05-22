@@ -43,15 +43,10 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
-    private String activationCode;
-
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
-
-//    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//    private Set <Book> myBooks;
 
     public User(){
     }
@@ -133,14 +128,6 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -176,13 +163,12 @@ public class User implements UserDetails {
                 Objects.equals(password, user.password) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(phoneNumber, user.phoneNumber) &&
-                Objects.equals(activationCode, user.activationCode) &&
                 Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, active, email, phoneNumber, activationCode, roles);
+        return Objects.hash(id, username, password, active, email, phoneNumber, roles);
     }
 
     @Override
@@ -194,7 +180,6 @@ public class User implements UserDetails {
                 ", active=" + active +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", activationCode='" + activationCode + '\'' +
                 ", roles=" + roles +
                 '}';
     }

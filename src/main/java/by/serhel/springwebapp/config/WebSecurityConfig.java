@@ -44,29 +44,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService)
                 .passwordEncoder(passwordEncoder);
     }
-
-//        @Bean
-//    public PrincipalExtractor principalExtractor(IUserRepository userRepository) {
-//        return map -> {
-//            String str = (String)map.get("sub");
-//            Long id = Long.parseLong(str.substring(0,10));
-//            User user = userRepository.findById(id).orElseGet(() -> {
-//                User newUser = new User();
-//
-//                newUser.setId(id);
-//                newUser.setFirstName((String) map.get("given_name"));
-//                newUser.setLastName((String) map.get("family_name"));
-//                newUser.setEmail((String) map.get("email"));
-//                String username = (String) map.get("email");
-//                newUser.setUsername(username.substring(0, username.indexOf("@")));
-//
-//                return newUser;
-//            });
-//            user.setActive(true);
-//            Set<Role> roles = new HashSet<>();
-//            roles.add(Role.USER);
-//            user.setRoles(roles);
-//            return userRepository.save(user);
-//        };
-//    }
 }
