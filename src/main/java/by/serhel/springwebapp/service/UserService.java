@@ -62,40 +62,46 @@ public class UserService implements UserDetailsService {
         Set<String> roles = Arrays.stream(Role.values())
                 .map(Role::name)
                 .collect(Collectors.toSet());
-
         user.getRoles().clear();
-
         for(String key : form.keySet()){
             if(roles.contains(key)){
                 user.getRoles().add(Role.valueOf(key));
             }
         }
+        if(user.getRoles().isEmpty()){
+            user.getRoles().add(Role.USER);
+        }
         userRepository.save(user);
     }
 
-    public void updateProfile(User user, String firstName, String lastName, String email, String password, String phoneNumber) {
-        String userEmail = user.getEmail();
+    public void updateProfile(User currentUser, User validatingUser) {
+        String userEmail = currentUser.getEmail();
 
+        String email = validatingUser.getEmail();
         if(email != null && !email.equals(userEmail) && email.matches("[\\w\\.%+-]+@\\w+\\.\\w{2,3}")){
-            user.setEmail(email);
+            currentUser.setEmail(email);
         }
 
+        String firstName = validatingUser.getFirstName();
         if(!StringUtils.isEmpty(firstName)){
-            user.setFirstName(firstName);
+            currentUser.setFirstName(firstName);
         }
 
+        String lastName = validatingUser.getLastName();
         if(!StringUtils.isEmpty(lastName)){
-            user.setLastName(lastName);
+            currentUser.setLastName(lastName);
         }
 
+        String phoneNumber = validatingUser.getPhoneNumber();
         if(!StringUtils.isEmpty(phoneNumber)){
-            user.setPhoneNumber(phoneNumber);
+            currentUser.setPhoneNumber(phoneNumber);
         }
 
+        String password = validatingUser.getPassword();
         if(!StringUtils.isEmpty(password)){
-            user.setPassword(passwordEncoder.encode(password));
+            currentUser.setPassword(passwordEncoder.encode(password));
         }
-        userRepository.save(user);
+        userRepository.save(currentUser);
     }
 
     @Transactional

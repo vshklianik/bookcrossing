@@ -28,7 +28,7 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping()
-    public String getMyBooks(@AuthenticationPrincipal User user, Model model){
+    public String getMyBooks(@AuthenticationPrincipal User user, Model model) {
         logger.info("start 'getMyBooks'");
         model.addAttribute("genres", GenreType.values());
         model.addAttribute("user", user);
@@ -43,14 +43,15 @@ public class BookController {
                       @RequestParam Map<String, String> form,
                       @Valid Book book,
                       BindingResult bindingResult,
-                      Model model) throws IOException
-    {
+                      Model model) throws IOException {
         logger.info(" start 'add'");
-        if (bindingResult.hasErrors()) {
-            book.setAuthor(user);
+        if (bindingResult.hasErrors() || bookService.getGenreTypesFromForm(form).isEmpty()) {
             model.addAttribute("bookError", book);
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
+            if (bookService.getGenreTypesFromForm(form).isEmpty()) {
+                model.addAttribute("genreError", "message.size.genre");
+            }
         } else {
             model.addAttribute("book", null);
             bookService.saveBook(user, file, book, form);
@@ -63,7 +64,7 @@ public class BookController {
     }
 
     @GetMapping("/edit/{book}")
-    public String editBook(@PathVariable Book book, Model model){
+    public String editBook(@PathVariable Book book, Model model) {
         logger.info("start 'editBook'");
 
         model.addAttribute("genres", GenreType.values());
@@ -78,14 +79,16 @@ public class BookController {
                            BindingResult bindingResult,
                            Model model,
                            @RequestParam Map<String, String> form,
-                           @RequestParam("file") MultipartFile file) throws IOException
-    {
+                           @RequestParam("file") MultipartFile file) throws IOException {
         logger.info("start 'saveBook'");
         model.addAttribute("genres", GenreType.values());
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || bookService.getGenreTypesFromForm(form).isEmpty()) {
             model.addAttribute("bookError", book);
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
+            if (bookService.getGenreTypesFromForm(form).isEmpty()) {
+                model.addAttribute("genreError", "message.size.genre");
+            }
             return "bookEdit";
         }
         bookService.saveBook(user, file, book, form);

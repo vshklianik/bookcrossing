@@ -63,7 +63,7 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    private Set<GenreType> getGenreTypesFromForm(Map<String, String> form) {
+    public Set<GenreType> getGenreTypesFromForm(Map<String, String> form) {
         Set<String> set = Arrays.stream(GenreType.values()).map(GenreType::name).collect(Collectors.toSet());
         Set<GenreType> bookGenre = new HashSet<>();
 

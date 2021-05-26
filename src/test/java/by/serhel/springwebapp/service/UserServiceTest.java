@@ -34,9 +34,11 @@ public class UserServiceTest {
     @Autowired
     private PasswordEncoder encoder;
     private User user;
+    private User validating;
 
     @Before
     public void init() {
+        validating = new User();
         user = new User();
         user.setId(3l);
         user.setUsername("testUser");
@@ -94,36 +96,34 @@ public class UserServiceTest {
 
     @Test
     public void updateProfile_EmailIsNotNull_ActivationCodeNotNull() {
-        userService.updateProfile(user, null, null,
-                "testmail@lol.kek", null, null);
+        user.setEmail("testmail@lol.kek");
+        userService.updateProfile(user, validating);
         User user1 = userRepository.findByUsername(user.getUsername());
         assertNotNull(user1.getActivationCode());
     }
 
     @Test
     public void updateProfile_firstNameEqualTestName_FirstNameUpdated() {
-        String expected = "TestName";
-        userService.updateProfile(user, expected, null,
-                null, null, null);
+        validating.setLastName("TestName");
+        userService.updateProfile(user, validating);
         String actual = userRepository.findByUsername(user.getUsername()).getFirstName();
-        assertEquals(expected, actual);
+        assertEquals(validating.getFirstName(), actual);
     }
 
     @Test
     public void updateProfile_LastNameEqualLast_LastNameUpdated() {
-        String expected = "Last";
-        userService.updateProfile(user, null, expected,
-                null, null, null);
+        validating.setLastName("Last");
+        userService.updateProfile(user, validating);
         String actual = userRepository.findByUsername(user.getUsername()).getLastName();
-        assertEquals(expected, actual);
+        assertEquals(validating.getLastName(), actual);
     }
 
     @Test
     public void updateProfile_PasswordEqualsTestPass_PasswordUpdated() {
         String pass = "TestPass";
+        validating.setPassword(pass);
         String tet = encoder.encode(pass);
-        userService.updateProfile(user, null, null,
-                null, pass, null);
+        userService.updateProfile(user,validating);
         String encodedPass = userRepository.findByUsername(user.getUsername()).getPassword();
         assertTrue(encoder.matches(pass, encodedPass));
     }
@@ -131,8 +131,8 @@ public class UserServiceTest {
     @Test
     public void updateProfile_NewPhoneNumber_PhoneNumberUpdated() {
         String expected = "+375291667715";
-        userService.updateProfile(user, null, null,
-                null, null, expected);
+        validating.setPhoneNumber(expected);
+        userService.updateProfile(user, validating);
         String actual = userRepository.findByUsername(user.getUsername()).getPhoneNumber();
         assertEquals(expected, actual);
     }
