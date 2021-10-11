@@ -94,13 +94,13 @@ public class UserServiceTest {
         assertEquals(user.getRoles(), actual);
     }
 
-    @Test
-    public void updateProfile_EmailIsNotNull_ActivationCodeNotNull() {
-        user.setEmail("testmail@lol.kek");
-        userService.updateProfile(user, validating);
-        User user1 = userRepository.findByUsername(user.getUsername());
-        assertNotNull(user1.getActivationCode());
-    }
+//    @Test
+//    public void updateProfile_EmailIsNotNull_ActivationCodeNotNull() {
+//        user.setEmail("testmail@lol.kek");
+//        userService.updateProfile(user, validating);
+//        User user1 = userRepository.findByUsername(user.getUsername());
+//        assertNotNull(user1.getActivationCode());
+//    }
 
     @Test
     public void updateProfile_firstNameEqualTestName_FirstNameUpdated() {
