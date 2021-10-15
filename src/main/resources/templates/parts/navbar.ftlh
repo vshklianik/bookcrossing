@@ -31,13 +31,6 @@
                 </#if>
             </ul>
 
-            <div class="nav-item mr-3">
-                <select id="locales">
-                    <option value=""></option>
-                    <option value="en" ><@spring.message "lang.en"/></option>
-                    <option value="ru" ><@spring.message "lang.ru"/></option>
-                </select>
-            </div>
             <div class="navbar-text mr-3" id="username">${name}</div>
             <#if user?? && user.password?exists && user.password != ''>
                 <@l.logout />
@@ -54,15 +47,4 @@
             </form>
         </div>
     </nav>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#locales").change(function () {
-                var selectedOption = $('#locales').val();
-                if (selectedOption != ''){
-                    window.location.replace("${springMacroRequestContext.getRequestUri()}?lang=" + selectedOption);
-                }
-            });
-        });
-    </script>
 </div>

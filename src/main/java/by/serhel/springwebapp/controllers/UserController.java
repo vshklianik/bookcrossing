@@ -14,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.BindingType;
 import java.util.Map;
 
 @Controller
@@ -68,20 +67,26 @@ public class UserController {
     public String getProfile(Model model, @AuthenticationPrincipal User user){
         logger.info("start 'getProfile'");
         model.addAttribute("user", user);
+        logger.info(user);
         logger.info("finish 'getProfile'");
         return "profile";
     }
 
     @PostMapping("/profile")
-    public String updateProfile(@AuthenticationPrincipal User user,
-                                @RequestParam String firstName,
-                                @RequestParam String lastName,
-                                @RequestParam String email,
-                                @RequestParam String password,
-                                @RequestParam String phoneNumber
+    public String updateProfile(@AuthenticationPrincipal User currentUser,
+                                @Valid User validatingUser,
+                                BindingResult result,
+                                Model model
     ){
         logger.info("start 'updateProfile'");
-        userService.updateProfile(user, firstName, lastName, email, password, phoneNumber);
+//        if(result.hasErrors()){
+//            Map<String, String> errors = ControllerUtils.getErrors(result);
+//            errors.remove("passwordError");
+//            model.mergeAttributes(errors);
+//            model.addAttribute(validatingUser);
+//            return "profile";
+//        }
+        userService.updateProfile(currentUser, validatingUser);
         logger.info("finish 'updateProfile'");
         return "redirect:/users/profile";
     }

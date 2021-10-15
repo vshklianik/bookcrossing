@@ -104,6 +104,39 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    public void updateProfile(User currentUser, User validatingUser) {
+        String userEmail = currentUser.getEmail();
+        String email = validatingUser.getEmail();
+        if(email != null && !email.equals(userEmail) && email.matches("[\\w.%+-]+@\\w+\\.\\w{2,3}")){
+            currentUser.setEmail(email);
+            if(!StringUtils.isEmpty(email)){
+                currentUser.setActivationCode(UUID.randomUUID().toString());
+            }
+            sendMessage(currentUser);
+        }
+
+        String firstName = validatingUser.getFirstName();
+        if(!StringUtils.isEmpty(firstName)){
+            currentUser.setFirstName(firstName);
+        }
+
+        String lastName = validatingUser.getLastName();
+        if(!StringUtils.isEmpty(lastName)){
+            currentUser.setLastName(lastName);
+        }
+
+        String phoneNumber = validatingUser.getPhoneNumber();
+        if(!StringUtils.isEmpty(phoneNumber)){
+            currentUser.setPhoneNumber(phoneNumber);
+        }
+
+        String password = validatingUser.getPassword();
+        if(!StringUtils.isEmpty(password)){
+            currentUser.setPassword(passwordEncoder.encode(password));
+        }
+        userRepository.save(currentUser);
+    }
+
     public void updateProfile(User user, String firstName, String lastName, String email, String password, String phoneNumber) {
         String userEmail = user.getEmail();
 

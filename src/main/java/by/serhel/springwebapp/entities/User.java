@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
@@ -41,6 +42,7 @@ public class User implements UserDetails {
     @NotBlank(message = "message.empty.email")
     private String email;
 
+    @Pattern(regexp = "()|(\\d{12,13})", message = "message.correct.number")
     private String phoneNumber;
 
     private String activationCode;
@@ -191,6 +193,8 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", active=" + active +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +

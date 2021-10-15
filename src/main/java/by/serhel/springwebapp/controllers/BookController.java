@@ -45,11 +45,13 @@ public class BookController {
                       Model model) throws IOException
     {
         logger.info(" start 'add'");
-        if (bindingResult.hasErrors()) {
-            book.setAuthor(user);
+        if (bindingResult.hasErrors() || bookService.getGenreTypesFromForm(form).isEmpty()) {
             model.addAttribute("bookError", book);
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
+            if (bookService.getGenreTypesFromForm(form).isEmpty()) {
+                model.addAttribute("genreError", "message.size.genre");
+            }
         } else {
             model.addAttribute("book", null);
             bookService.saveBook(user, file, book, form);
@@ -81,10 +83,13 @@ public class BookController {
     {
         logger.info("start 'saveBook'");
         model.addAttribute("genres", GenreType.values());
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || bookService.getGenreTypesFromForm(form).isEmpty()) {
             model.addAttribute("bookError", book);
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
+            if (bookService.getGenreTypesFromForm(form).isEmpty()) {
+                model.addAttribute("genreError", "message.size.genre");
+            }
             return "bookEdit";
         }
         bookService.saveBook(user, file, book, form);

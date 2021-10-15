@@ -2,7 +2,7 @@
 <#import "/spring.ftl" as spring>
 <@c.page>
     <#if Session?? && Session.SPRING_SECURITY_LAST_EXCEPTION??>
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger col-sm-5" role="alert">
             ${Session.SPRING_SECURITY_LAST_EXCEPTION.message}
         </div>
     </#if>

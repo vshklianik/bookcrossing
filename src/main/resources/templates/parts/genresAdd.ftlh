@@ -1,5 +1,10 @@
 <#import "/spring.ftl" as spring>
 <div name="genre">
+    <#if genreError??>
+        <div class="alert alert-danger col-sm-5" role="alert">
+            <@spring.message "${genreError}"/>
+        </div>
+    </#if>
     <#if genres??>
         <#list genres as genre>
             <div class="my-3">
