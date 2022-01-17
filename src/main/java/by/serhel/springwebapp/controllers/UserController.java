@@ -67,7 +67,6 @@ public class UserController {
     public String getProfile(Model model, @AuthenticationPrincipal User user){
         logger.info("start 'getProfile'");
         model.addAttribute("user", user);
-        logger.info(user);
         logger.info("finish 'getProfile'");
         return "profile";
     }
@@ -77,15 +76,18 @@ public class UserController {
                                 @Valid User validatingUser,
                                 BindingResult result,
                                 Model model
-    ){
+    ) {
         logger.info("start 'updateProfile'");
-//        if(result.hasErrors()){
-//            Map<String, String> errors = ControllerUtils.getErrors(result);
-//            errors.remove("passwordError");
-//            model.mergeAttributes(errors);
-//            model.addAttribute(validatingUser);
-//            return "profile";
-//        }
+        Map<String, String> errors = null;
+        if (result.hasErrors()) {
+            errors = ControllerUtils.getErrors(result);
+            errors.remove("passwordError");
+        }
+        if (errors != null && errors.size() > 0){
+            model.mergeAttributes(errors);
+            model.addAttribute(validatingUser);
+            return "profile";
+        }
         userService.updateProfile(currentUser, validatingUser);
         logger.info("finish 'updateProfile'");
         return "redirect:/users/profile";

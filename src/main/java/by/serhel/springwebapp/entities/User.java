@@ -42,7 +42,7 @@ public class User implements UserDetails {
     @NotBlank(message = "message.empty.email")
     private String email;
 
-    @Pattern(regexp = "()|(\\d{12,13})", message = "message.correct.number")
+    @Pattern(regexp = "()|(\\+?\\d{12,13})", message = "message.correct.number")
     private String phoneNumber;
 
     private String activationCode;

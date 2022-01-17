@@ -42,19 +42,18 @@ public class RegistrationController {
     ){
         logger.info("start 'addUser'");
 
-        boolean passwordConfirmEmpty = StringUtils.isEmpty(passwordConfirm);
-
-        if(passwordConfirmEmpty){
+        boolean isNotValid = StringUtils.isEmpty(passwordConfirm);
+        if(isNotValid){
             model.addAttribute("password1Error", "message.correct.password1");
         }
-
-        if(user.getPassword() != null && !user.getPassword().equals(passwordConfirm)){
+        isNotValid = isNotValid || user.getPassword() != null && !user.getPassword().equals(passwordConfirm);
+        if(isNotValid){
             model.addAttribute("passwordError", "message.confirm.password");
         }
 
         model.addAttribute("user", null);
 
-        if(passwordConfirmEmpty || bindingResult.hasErrors()){
+        if(isNotValid || bindingResult.hasErrors()){
             model.addAttribute("user", user);
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
