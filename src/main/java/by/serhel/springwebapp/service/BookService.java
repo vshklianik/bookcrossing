@@ -24,6 +24,8 @@ public class BookService {
     @Value("${upload.path}")
     private String uploadPath;
 
+    public static List<String> searchedItems = new ArrayList<>();
+
     public String addFile(MultipartFile file) throws IOException{
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
@@ -75,10 +77,18 @@ public class BookService {
         return bookGenre;
     }
 
+    public void saveSearchedItems(String searchText) {
+        for (int i = 0; i < 100; i++) {
+            searchedItems.add(searchText);
+        }
+    }
+
     public Iterable<Book> getBooks(String searchText, Map<String, String> genre) {
         Iterable<Book> adverts;
 
         Set<GenreType> bookGenre = getGenreTypesFromForm(genre);
+
+        new BookService().saveSearchedItems(searchText);
 
         if(searchText != null && !StringUtils.isEmpty(searchText)){
             adverts = getBooksByName(searchText);
