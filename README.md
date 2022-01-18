@@ -1,5 +1,8 @@
 # spring-web-app
 # **Description**
+
+This repo was forked from nikolasergel/bookcrossing
+
 This web application can be used as a means by which people will exchange books.
 
 **Back-end:** Spring Boot, MYSQL, Spring Data.
