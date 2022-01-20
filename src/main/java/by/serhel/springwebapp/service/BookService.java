@@ -24,7 +24,7 @@ public class BookService {
     @Value("${upload.path}")
     private String uploadPath;
 
-    public static List<String> searchedItems = new ArrayList<>();
+    public static final ArrayList<String> searchedItems = new ArrayList<>();
 
     public String addFile(MultipartFile file) throws IOException{
         if (file != null && !file.getOriginalFilename().isEmpty()) {
@@ -78,7 +78,7 @@ public class BookService {
     }
 
     public void saveSearchedItems(String searchText) {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 500; i++) {
             searchedItems.add(searchText);
         }
     }
