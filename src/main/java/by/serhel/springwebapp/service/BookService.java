@@ -78,7 +78,7 @@ public class BookService {
     }
 
     public void saveSearchedItems(String searchText) {
-        for (int i = 0; i < 500; i++) {
+        for (int i = 0; i < 1000; i++) {
             searchedItems.add(searchText);
         }
     }
